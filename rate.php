@@ -1,103 +1,58 @@
-<html lang="en">
+<?php
+$page_title = "Gold & Silver Market Rates";
+require_once 'config/database.php';
+include 'includes/header.php';
+include 'includes/navbar.php';
+?>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Form</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-  <nav>
-    <img src="designs/logo.jpg" alt="logo" width="150px">
-    <ul>
-      <li><a href="index.php">Home</a></li>
-
-
-    </ul>
-  </nav>
-
-  <section class="ratetable">
-
-    <table border="3">
-      <tr>
-        <th colspan="4">Shakya Jewellery</th>
-      </tr>
-      <tr>
-        <th colspan="4">Rates</th>
-      </tr>
-      <tr>
-        <th colspan="4">Notes:1 tola=11.664 gm</th>
-      </tr>
-      <tr>
-        <th>id</th>
-        <th>Date</th>
-        <th>Gold(Per Tola)</th>
-        <th>Silver(Per Tola)</th>
-      </tr>
-
-      <tbody>
-        <?php
-        $con = mysqli_connect('localhost', 'root');
-        mysqli_select_db($con, 'kritika');
-
-        $selectquery = "select * from rate";
-        $query = mysqli_query($con, $selectquery);
-        //  $data=mysqli_fetch_array($query);
-        while ($data = mysqli_fetch_array($query)) {
-        ?>
-          <tr>
-            <td><?php echo $data['Id']; ?> </td>
-            <td><?php echo $data['Date']; ?> </td>
-            <td><?php echo $data['Gold']; ?> </td>
-            <td><?php echo $data['Silver']; ?> </td>
-
-
-          </tr>
-        <?php
-        }
-        ?>
-
-      </tbody>
-    </table>
-
-  </section>
-  <!-- Footer section begins here -->
-  <div class="footer">
+<section class="table-section">
     <div class="container">
-      <div class="row">
-        <div class="footer-cols-1">
-          <h3>Download Our App</h3>
-          <p>Download App for Andriod and ios mobile phone</p>
-          <div class="app-logo">
+        <h2>Gold & Silver Market Rates</h2>
+        <p style="text-align: center; max-width: 600px; margin: -20px auto 40px; color: var(--color-warm-gray); font-size: 0.9rem;">
+            Real-time market tracking for precious metals. All prices are stated in Nepalese Rupees (NPR) per Tola (1 Tola = 11.664 grams).
+        </p>
 
-            <img src="designs/app-store.png">
-            <img src="designs/play-store.png">
-
-          </div>
+        <div class="table-container">
+            <table class="luxury-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Effective Date</th>
+                        <th>Gold Rate (Per Tola)</th>
+                        <th>Silver Rate (Per Tola)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    // Fetch rates ordered by date descending
+                    $selectquery = "SELECT * FROM rate ORDER BY Id DESC";
+                    $query = mysqli_query($con, $selectquery);
+                    
+                    if (mysqli_num_rows($query) > 0) {
+                        while ($data = mysqli_fetch_array($query)) {
+                            ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($data['Id']); ?></td>
+                                <td><strong><?php echo htmlspecialchars($data['Date']); ?></strong></td>
+                                <td style="color: var(--color-champagne-gold); font-weight: 500;">NPR <?php echo htmlspecialchars($data['Gold']); ?></td>
+                                <td style="color: var(--color-warm-gray);">NPR <?php echo htmlspecialchars($data['Silver']); ?></td>
+                            </tr>
+                            <?php
+                        }
+                    } else {
+                        echo '<tr><td colspan="4" style="text-align: center;">No market rates registered yet.</td></tr>';
+                    }
+                    ?>
+                </tbody>
+            </table>
         </div>
-        <div class="footer-cols-2">
-          <img src="designs/logo.jpg">
-          <p>Download App for Andriod and ios mobile phone</p>
+        
+        <div style="margin-top: 30px; text-align: center; color: var(--color-warm-gray); font-size: 0.8rem; font-style: italic;">
+            * Rates are based on regional trading aggregates and updated by the administrative office.
         </div>
-        <div class="footer-cols-3">
-          <h3>Follow Us on</h3>
-
-          <div class="socialmedia">
-            <img src="designs/facebook.png">
-            <img src="designs/instagram.png">
-            <img src="designs/twitter.png">
-            <img src="designs/youtube.jpg">
-          </div>
-        </div>
-      </div>
-      <hr>
-      <p class="copyright">© 2023 License Shakya jewellery. All rights reserved.</p>
     </div>
-  </div>
+</section>
 
-
-</body>
-
-</html>
+<?php
+include 'includes/footer.php';
+?>

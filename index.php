@@ -1,304 +1,307 @@
-<html lang="en">
+<?php
+$page_title = "Home";
+require_once 'config/database.php';
+include 'includes/header.php';
+include 'includes/navbar.php';
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project</title>
-    <link rel="stylesheet" href="style.css">
+// Fetch the latest gold and silver rates for display or calculations
+$rate_query = "SELECT * FROM rate ORDER BY Id DESC LIMIT 1";
+$rate_result = mysqli_query($con, $rate_query);
+$latest_rates = mysqli_fetch_assoc($rate_result);
 
-</head>
+$gold_rate = $latest_rates ? $latest_rates['Gold'] : '98,000';
+$silver_rate = $latest_rates ? $latest_rates['Silver'] : '1,200';
+?>
 
-<body>
-    <div>
-        <nav>
-            <img src="designs/logo.jpg" alt="logo" width="150px">
-            <ul>
-                <li><a href="index.php">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="login.php">Admin</a></li>
-                <li><a href="rate.php">Rate</a></li>
-            </ul>
-
-        </nav>
-        <!-- <img src="designs/menu.png" class="menu-icon"> -->
-    </div>
-
-    <!-- </div> -->
-    <!-- navbar section ends here -->
-
-
-
-    <!-- Home section begins here -->
-    <div class="row">
-        <div class="cols-2">
-            <h1>Give your looks<br>A New Style</h1>
-            <p>"Make jewellery contact before eyes contact"</p>
-
-        </div>
-        <div class="cols-2">
-            <img src="designs/design3.jpg" alt="design">
+<!-- Hero Section -->
+<section class="hero-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col col-text">
+                <div class="hero-text">
+                    <h1>Give your looks<br>A New Style</h1>
+                    <p>"Make jewellery contact before eyes contact"</p>
+                    <a href="#gallery" class="btn">Discover Collections</a>
+                </div>
+            </div>
+            <div class="col col-img">
+                <div class="hero-image">
+                    <img src="designs/design3.jpg" alt="Velora Signature Ring Design">
+                </div>
+            </div>
         </div>
     </div>
-    <!-- </div> -->
+</section>
 
-    <section class="row1">
-        <div class="cols-2">
-            <img src="designs/design4.jpg" alt="design">
-        </div>
-        <div class="cols-2">
-            <h1>Jewellery is like an ice-cream.<br></h1>
-            <p>"There is always a space for more"</p>
-            <!-- <a href="" class="btn">See more &#8594;</a> -->
-        </div>
-    </section>
-
-    <!-- Home section ends here -->
-    <!-- About section begins here -->
-    <section class="about" id="about">
-        <h2>About</h2>
+<!-- Brand Campaign Section -->
+<section class="promo-section">
+    <div class="container">
         <div class="row">
-            <div class="cols-2">
-                <p>Shakya Jewellers is one of the oldest jewellery shop located in Hetauda-4, Huprachaur, Makwanpur. It gives the quality services of ordering the jewellery items.It had got a experience of more than 20 years with well trained employees.</p>
-
+            <div class="col col-img">
+                <div class="promo-image">
+                    <img src="designs/design4.jpg" alt="Velora Craftsmanship">
+                </div>
             </div>
-            <div class="cols-2">
-                <img src="designs/logo.jpg" alt="logo">
-            </div>
-        </div>
-
-    </section>
-    <!-- About section ends here -->
-
-    <!-- Gallery Section begins here -->
-    <section class="gallery" id="gallery">
-        <h2>Gallery</h2>
-        <div class="row">
-            <div class="cols-2">
-                <h2 class="details">Necklace</h2>
-                <ul type="none">
-                    <li>Caret:24</li><br>
-                    <li>Material:Gold</li><br>
-                    <li>Weight:20gm</li><br>
-                    <li>Code:#01</li><br>
-                    <!-- <li>Price:NRS.15000|-</li> -->
-                </ul>
-                <a href="form.php" class="btn">Order Now &#8594;</a>
-
-            </div>
-
-            <div class="cols-2">
-                <img src="designs/necklace1.jpg" alt="design">
-            </div>
-
-
-        </div>
-        <!-- </div> -->
-
-
-
-
-        <div class="row1">
-            <div class="cols-2">
-                <img src="designs/rings1.jpg" alt="design">
-            </div>
-            <div class="cols-2">
-                <h2 class="details">Ring</h2>
-                <ul type="none">
-                    <li>Caret:23</li><br>
-                    <li>Material:Gold</li><br>
-                    <li>Weight:20gm</li><br>
-                    <li>Code:#02</li><br>
-                    <!-- <li>Price:NRS.15000|-</li> -->
-                </ul>
-                <a href="form.php" class="btn">Order Now &#8594;</a>
-
+            <div class="col col-text">
+                <div class="promo-text">
+                    <h2>Jewelry is like ice cream.</h2>
+                    <p><em>"There is always room for more."</em> At Velora, we believe that jewelry is more than an accessory—it is an extension of your persona, a silent statement of beauty, and a canvas of self-expression.</p>
+                    <a href="#gallery" class="btn btn-secondary">Explore Designs</a>
+                </div>
             </div>
         </div>
+    </div>
+</section>
 
-        <div class="row">
-            <div class="cols-2">
-                <h2 class="details">Anklet</h2>
-                <ul type="none">
-                    <li>Caret:24</li><br>
-                    <li>Material:Silver</li><br>
-                    <li>Weight:20gm</li><br>
-                    <li>Code:#03</li><br>
-                    <!-- <li>Price:NRS.1500|-</li> -->
+<!-- About Section -->
+<section class="about-section" id="about">
+    <div class="container">
+        <div class="about-content">
+            <h2>Our Story</h2>
+            <p>Velora (formerly Shakya Jewellers) is one of the oldest and most trusted jewelry houses located in Huprachaur, Hetauda. For over 20 years, our master artisans have blended classical Nepalese heritage with contemporary designs, offering an unmatched experience in bespoke gold and silver creations.</p>
+            <div class="about-logo">Velora</div>
+        </div>
+    </div>
+</section>
 
-                </ul>
-                <a href="form.php" class="btn">Order Now &#8594;</a>
-
+<!-- Gallery Catalog Section -->
+<section class="gallery-section" id="gallery">
+    <div class="container">
+        <h2>The Signature Collection</h2>
+        <p style="text-align: center; max-width: 600px; margin: -20px auto 40px; color: var(--color-warm-gray);">Explore our curated collection of luxury jewelry, hand-crafted with conflict-free materials and certified metals.</p>
+        
+        <div class="products-grid">
+            
+            <!-- Card 1: Necklace -->
+            <div class="product-card">
+                <div class="product-badge">Best Seller</div>
+                <button class="product-wishlist" aria-label="Add to wishlist"></button>
+                <div class="product-image-container">
+                    <img src="designs/necklace1.jpg" alt="The Velora Heirloom Necklace">
+                </div>
+                <div class="product-info">
+                    <div>
+                        <div class="product-material">24K Gold</div>
+                        <h3 class="product-title">Heirloom Necklace</h3>
+                        <ul class="product-specs">
+                            <li>Weight: <span>20gm</span></li>
+                            <li>Code: <span>#01</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="product-price">Custom Quote</div>
+                        <a href="form.php?code=%2301&item=Necklace" class="btn">Inquire Now</a>
+                    </div>
+                </div>
             </div>
 
-            <div class="cols-2">
-                <img src="designs/anklet1.jpg" alt="design">
+            <!-- Card 2: Ring -->
+            <div class="product-card">
+                <div class="product-badge">New in</div>
+                <button class="product-wishlist" aria-label="Add to wishlist"></button>
+                <div class="product-image-container">
+                    <img src="designs/rings1.jpg" alt="Velora Diamond Band">
+                </div>
+                <div class="product-info">
+                    <div>
+                        <div class="product-material">23K Gold</div>
+                        <h3 class="product-title">Elegance Ring Band</h3>
+                        <ul class="product-specs">
+                            <li>Weight: <span>20gm</span></li>
+                            <li>Code: <span>#02</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="product-price">Custom Quote</div>
+                        <a href="form.php?code=%2302&item=Rings" class="btn">Inquire Now</a>
+                    </div>
+                </div>
             </div>
 
+            <!-- Card 3: Anklet -->
+            <div class="product-card">
+                <button class="product-wishlist" aria-label="Add to wishlist"></button>
+                <div class="product-image-container">
+                    <img src="designs/anklet1.jpg" alt="Velora Silver Anklet">
+                </div>
+                <div class="product-info">
+                    <div>
+                        <div class="product-material">Pure Silver</div>
+                        <h3 class="product-title">Classic Silver Anklet</h3>
+                        <ul class="product-specs">
+                            <li>Weight: <span>20gm</span></li>
+                            <li>Code: <span>#03</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="product-price">Custom Quote</div>
+                        <a href="form.php?code=%2303&item=Anklets" class="btn">Inquire Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: Mangalsutra -->
+            <div class="product-card">
+                <button class="product-wishlist" aria-label="Add to wishlist"></button>
+                <div class="product-image-container">
+                    <img src="designs/mangalsutra1.jpg" alt="Velora Mangalsutra">
+                </div>
+                <div class="product-info">
+                    <div>
+                        <div class="product-material">24K Gold</div>
+                        <h3 class="product-title">Sovereign Mangalsutra</h3>
+                        <ul class="product-specs">
+                            <li>Weight: <span>20gm</span></li>
+                            <li>Code: <span>#04</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="product-price">Custom Quote</div>
+                        <a href="form.php?code=%2304&item=Mangalsutra" class="btn">Inquire Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5: Naugedi -->
+            <div class="product-card">
+                <button class="product-wishlist" aria-label="Add to wishlist"></button>
+                <div class="product-image-container">
+                    <img src="designs/naugedi1.jpg" alt="Velora Traditional Naugedi">
+                </div>
+                <div class="product-info">
+                    <div>
+                        <div class="product-material">24K Gold</div>
+                        <h3 class="product-title">Traditional Naugedi</h3>
+                        <ul class="product-specs">
+                            <li>Weight: <span>11.11gm</span></li>
+                            <li>Code: <span>#05</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="product-price">Custom Quote</div>
+                        <a href="form.php?code=%2305&item=Naugedi" class="btn">Inquire Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 6: Chandrama -->
+            <div class="product-card">
+                <button class="product-wishlist" aria-label="Add to wishlist"></button>
+                <div class="product-image-container">
+                    <img src="designs/chandrama1.jpg" alt="Velora Moon Chandrama">
+                </div>
+                <div class="product-info">
+                    <div>
+                        <div class="product-material">24K Gold</div>
+                        <h3 class="product-title">Lunar Chandrama</h3>
+                        <ul class="product-specs">
+                            <li>Weight: <span>15gm</span></li>
+                            <li>Code: <span>#06</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="product-price">Custom Quote</div>
+                        <a href="form.php?code=%2306&item=Chandrama" class="btn">Inquire Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 7: Bangle -->
+            <div class="product-card">
+                <button class="product-wishlist" aria-label="Add to wishlist"></button>
+                <div class="product-image-container">
+                    <img src="designs/bangles1.jpg" alt="Velora Gold Bangle">
+                </div>
+                <div class="product-info">
+                    <div>
+                        <div class="product-material">24K Gold</div>
+                        <h3 class="product-title">Sovereign Bangles</h3>
+                        <ul class="product-specs">
+                            <li>Weight: <span>20gm</span></li>
+                            <li>Code: <span>#07</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="product-price">Custom Quote</div>
+                        <a href="form.php?code=%2307&item=Bangles" class="btn">Inquire Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 8: Bracelet -->
+            <div class="product-card">
+                <button class="product-wishlist" aria-label="Add to wishlist"></button>
+                <div class="product-image-container">
+                    <img src="designs/bracelets1.jpg" alt="Velora Bracelet">
+                </div>
+                <div class="product-info">
+                    <div>
+                        <div class="product-material">22K Gold</div>
+                        <h3 class="product-title">Classic Gold Bracelet</h3>
+                        <ul class="product-specs">
+                            <li>Weight: <span>22gm</span></li>
+                            <li>Code: <span>#08</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="product-price">Custom Quote</div>
+                        <a href="form.php?code=%2308&item=Bracelets" class="btn">Inquire Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 9: Ear Rings -->
+            <div class="product-card">
+                <button class="product-wishlist" aria-label="Add to wishlist"></button>
+                <div class="product-image-container">
+                    <img src="designs/ear rings1.jpg" alt="Velora Earrings">
+                </div>
+                <div class="product-info">
+                    <div>
+                        <div class="product-material">24K Gold</div>
+                        <h3 class="product-title">Elegance Stud Earrings</h3>
+                        <ul class="product-specs">
+                            <li>Weight: <span>20gm</span></li>
+                            <li>Code: <span>#09</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="product-price">Custom Quote</div>
+                        <a href="form.php?code=%2309&item=Ear Rings" class="btn">Inquire Now</a>
+                    </div>
+                </div>
+            </div>
 
         </div>
+    </div>
+</section>
 
-        <div class="row1">
-            <div class="cols-2">
-                <img src="designs/mangalsutra1.jpg" alt="design">
-            </div>
-            <div class="cols-2">
-                <h2 class="details">Mangalsutra</h2>
-                <ul type="none">
-                    <li>Caret:24</li><br>
-                    <li>Material:Gold</li><br>
-                    <li>Weight:20gm</li><br>
-                    <li>Code:#04</li><br>
-                    <!-- <li>Price:NRS.15000|-</li> -->
-                </ul>
-                <a href="form.php" class="btn">Order Now &#8594;</a>
-
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="cols-2">
-                <h2 class="details">Naugedi</h2>
-                <ul type="none">
-                    <li>Caret:24</li><br>
-                    <li>Material:Gold</li><br>
-                    <li>Weight:11.11gm</li><br>
-                    <li>Code:#05</li><br>
-                    <!-- <li>Price:NRS.5000|-</li> -->
-                </ul>
-                <a href="form.php" class="btn">Order Now &#8594;</a>
-
-            </div>
-
-            <div class="cols-2">
-                <img src="designs/naugedi1.jpg" alt="design">
-            </div>
-        </div>
-
-        <div class="row1">
-            <div class="cols-2">
-                <img src="designs/chandrama1.jpg" alt="design">
-            </div>
-            <div class="cols-2">
-                <h2 class="details">Chandrama</h2>
-                <ul type="none">
-                    <li>Caret:24</li><br>
-                    <li>Material:Gold</li><br>
-                    <li>Weight:15gm</li><br>
-                    <li>Code:#06</li><br>
-                    <!-- <li>Price:NRS.15000|-</li> -->
-                </ul>
-                <a href="form.php" class="btn">Order Now &#8594;</a>
-
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="cols-2">
-                <h2 class="details">Bangle</h2>
-                <ul type="none">
-                    <li>Caret:24</li><br>
-                    <li>Material:Gold</li><br>
-                    <li>Weight:20gm</li><br>
-                    <li>Code:#07</li><br>
-                    <!-- <li>Price:NRS.15000|-</li> -->
-                </ul>
-                <a href="form.php" class="btn">Order Now &#8594;</a>
-
-            </div>
-
-            <div class="cols-2">
-                <img src="designs/bangles1.jpg" alt="design">
-            </div>
-        </div>
-
-        <div class="row1">
-            <div class="cols-2">
-                <img src="designs/bracelets1.jpg" alt="design">
-            </div>
-            <div class="cols-2">
-                <h2 class="details">Bracelet</h2>
-                <ul type="none">
-                    <li>Caret:22</li><br>
-                    <li>Material:Gold</li><br>
-                    <li>Weight:22gm</li><br>
-                    <li>Code:#08</li><br>
-                    <!-- <li>Price:NRS.20000|-</li> -->
-                </ul>
-                <a href="form.php" class="btn">Order Now &#8594;</a>
-
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="cols-2">
-                <h2 class="details">Ear Rings</h2>
-                <ul type="none">
-                    <li>Caret:24</li><br>
-                    <li>Material:Gold</li><br>
-                    <li>Weight:20gm</li><br>
-                    <li>Code:#09</li><br>
-                    <!-- <li>Price:NRS.15000|-</li> -->
-                </ul>
-                <a href="form.php" class="btn">Order Now &#8594;</a>
-
-            </div>
-
-            <div class="cols-2">
-                <img src="designs/ear rings1.jpg" alt="design">
-            </div>
-        </div>
-
-    </section>
-
-    <!-- Gallery section ends here -->
-
-    <!-- Contact section begins here -->
-    <section class="contact" id="contact">
+<!-- Contact Section -->
+<section class="contact-section" id="contact">
+    <div class="container">
         <h2>Contact Us</h2>
-        <h3>Hetauda-4, Makwanpur, Nepal<br>
-            P.O.Box:25963<br>
-            Tel:+977 05791827<br>
-            Fax:+977 05791827<br>
-            Email:shakyajewellery@gmail.com<br>
-        </h3>
-        <img src="designs/map.png">
-    </section>
-    <!-- Contact section ends here -->
-    <!-- Footer section begins here -->
-    <div class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="footer-cols-1">
-                    <h3>Download Our App</h3>
-                    <p>Download App for Andriod and ios mobile phone</p>
-                    <div class="app-logo">
-
-                        <img src="designs/app-store.png">
-                        <img src="designs/play-store.png">
-                    </div>
-                </div>
-                <div class="footer-cols-2">
-                    <img src="designs/logo.jpg">
-                    <p>Download App for Andriod and ios mobile phone</p>
-                </div>
-                <div class="footer-cols-3">
-                    <h3>Follow Us on</h3>
-                    <!-- Social media section -->
-                    <div class="socialmedia">
-                        <img src="designs/facebook.png"></a>
-                        <img src="designs/instagram.png"> </a>
-                        <img src="designs/twitter.png">
-                        <img src="designs/youtube.jpg">
-                    </div>
+        <div class="contact-box">
+            <div class="contact-info-pane">
+                <h3>Get in Touch</h3>
+                <ul class="contact-details">
+                    <li><strong>Address:</strong>Huprachaur, Hetauda-4, Makwanpur, Nepal</li>
+                    <li><strong>Box:</strong>P.O. Box 25963</li>
+                    <li><strong>Tel:</strong>+977 057 91827</li>
+                    <li><strong>Fax:</strong>+977 057 91827</li>
+                    <li><strong>Email:</strong>concierge@velorajewelry.com</li>
+                </ul>
+                <p style="font-size: 0.85rem; color: var(--color-warm-gray);">We welcome custom design orders. Please upload your design details using our online order registration portal.</p>
+                <div style="margin-top: 30px;">
+                    <a href="form.php" class="btn">Register Custom Order</a>
                 </div>
             </div>
-            <hr>
-            <!-- Copright section -->
-            <p class="copyright">© 2023 License Shakya jewellery. All rights reserved.</p>
-
+            <div class="contact-map-pane">
+                <img src="designs/map.png" alt="Velora Location Map">
+            </div>
         </div>
     </div>
-</body>
+</section>
 
-</html>
+<?php
+include 'includes/footer.php';
+?>

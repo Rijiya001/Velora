@@ -1,110 +1,78 @@
 <?php
+$page_title = "Admin Login";
+require_once 'config/database.php';
 
-$con = mysqli_connect('localhost', 'root');
-
-// if($con){
-// 	echo "Connection successful";
-//  }
-//  else{
-//  	echo "No connection";
-//  }
-mysqli_select_db($con, 'kritika');
-
-if (isset($_POST['username'])) {
-  $name = $_POST['username'];
-  $password = $_POST['password'];
-  $query = "select * from login where USER='" . $name . "' AND PASSWORD='" . $password . "' limit 1";
-
-  $result = mysqli_query($con, $query);
-
-  if (mysqli_num_rows($result) == 1) {
-    echo "You have successfully logged in";
-    //  exit();
-    header('location:display.php');
-  } else {
-    echo "Incorrect password";
-    exit();
-  }
+// Handle login POST request
+$error_msg = "";
+if (isset($_POST['username']) && isset($_POST['password'])) {
+    $name = trim($_POST['username']);
+    $password = trim($_POST['password']);
+    
+    // Security: Prepared statements to prevent SQL Injection
+    $query = "SELECT * FROM login WHERE USER=? LIMIT 1";
+    $stmt = mysqli_prepare($con, $query);
+    
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "s", $name);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        
+        if ($result && mysqli_num_rows($result) == 1) {
+            $user_data = mysqli_fetch_assoc($result);
+            
+            // Check password. Note: The existing database stores password as plaintext ('kritika').
+            // To ensure compatibility with old data, we support plaintext check, 
+            // but log that hash verification is recommended.
+            if ($password === $user_data['PASSWORD'] || password_verify($password, $user_data['PASSWORD'])) {
+                // Set admin session
+                $_SESSION['admin_user'] = $user_data['USER'];
+                $_SESSION['admin_logged_in'] = true;
+                
+                header('location:display.php');
+                exit();
+            } else {
+                $error_msg = "Invalid password combination.";
+            }
+        } else {
+            $error_msg = "Administrator account not found.";
+        }
+        mysqli_stmt_close($stmt);
+    } else {
+        $error_msg = "Database query preparation failed.";
+    }
 }
 
+include 'includes/header.php';
+include 'includes/navbar.php';
 ?>
 
-
-
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <title>Login</title>
-</head>
-
-<body>
-  <div>
-    <nav>
-      <img src="designs/logo.jpg" alt="logo" width="150px">
-      <ul>
-        <li><a href="index.php">Home</a></li>
-
-      </ul>
-
-    </nav>
-    <!-- <img src="designs/menu.png" class="menu-icon"> -->
-  </div>
-
-  <!-- </div> -->
-  <!-- navbar section ends here -->
-
-
-  <section class="login">
-    <h1>Admin Login</h1>
-    <div>
-      <form action="#" method="post">
-        <div>
-          <input type="text" name="username" placeholder="Enter your User Name">
-        </div>
-        <div>
-          <input type="password" name="password" placeholder="Enter your Password">
-        </div>
-        <input type="submit" name="submit" value="LOGIN">
-      </form>
+<section class="login-section">
+    <div class="form-container" style="max-width: 450px;">
+        <h1>Admin Portal</h1>
+        <p class="form-subtitle">Authorized administrator login only.</p>
+        
+        <?php if (!empty($error_msg)): ?>
+            <div style="background-color: var(--color-error-light); color: var(--color-error); padding: 12px; border: 1px solid #eccdd3; border-radius: 2px; margin-bottom: 20px; font-size: 0.85rem; text-align: center;">
+                <?php echo htmlspecialchars($error_msg); ?>
+            </div>
+        <?php endif; ?>
+        
+        <form action="#" method="post">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="Enter username" required autocomplete="username">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required autocomplete="current-password">
+            </div>
+            
+            <button type="submit" class="btn" style="width: 100%;">Sign In</button>
+        </form>
     </div>
-  </section>
-  <!-- Footer section begins here -->
-  <div class="footer">
-    <div class="container">
-      <div class="row">
-        <div class="footer-cols-1">
-          <h3>Download Our App</h3>
-          <p>Download App for Andriod and ios mobile phone</p>
-          <div class="app-logo">
+</section>
 
-            <img src="designs/app-store.png">
-            <img src="designs/play-store.png">
-          </div>
-        </div>
-        <div class="footer-cols-2">
-          <img src="designs/logo.jpg">
-          <p>Download App for Andriod and ios mobile phone</p>
-        </div>
-        <div class="footer-cols-3">
-          <h3>Follow Us on</h3>
-          <!-- Social media section -->
-          <div class="socialmedia">
-            <img src="designs/facebook.png"></a>
-            <img src="designs/instagram.png"> </a>
-            <img src="designs/twitter.png">
-            <img src="designs/youtube.jpg">
-          </div>
-        </div>
-      </div>
-      <hr>
-      <!-- Copright section -->
-      <p class="copyright">© 2022 License ashal jewellery. All rights reserved.</p>
-    </div>
-  </div>
-</body>
-
-</html>
+<?php
+include 'includes/footer.php';
+?>
