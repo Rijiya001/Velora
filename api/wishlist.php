@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($delete_stmt) {
                 mysqli_stmt_bind_param($delete_stmt, "ii", $user_id, $product_id);
                 if (mysqli_stmt_execute($delete_stmt)) {
-                    log_activity($con, $user_id, "Removed product ID $product_id from wishlist");
+                    log_activity($con, $_SESSION['email'], 'user', "Removed product ID $product_id from wishlist");
                     echo json_encode(['status' => 'removed', 'message' => 'Removed from saved pieces.']);
                 }
                 mysqli_stmt_close($delete_stmt);
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($insert_stmt) {
                 mysqli_stmt_bind_param($insert_stmt, "ii", $user_id, $product_id);
                 if (mysqli_stmt_execute($insert_stmt)) {
-                    log_activity($con, $user_id, "Added product ID $product_id to wishlist");
+                    log_activity($con, $_SESSION['email'], 'user', "Added product ID $product_id to wishlist");
                     echo json_encode(['status' => 'added', 'message' => 'Saved to your profile.']);
                 }
                 mysqli_stmt_close($insert_stmt);

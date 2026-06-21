@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!$update_error) {
         $success = "Website settings updated successfully.";
-        log_activity($con, $user_id, "Updated website settings");
+        log_activity($con, $_SESSION['email'], $_SESSION['role'], "Updated website settings");
     } else {
         $error = "Failed to update some settings.";
     }

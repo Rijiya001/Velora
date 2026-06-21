@@ -23,7 +23,7 @@ if ($action === 'archive' && $product_id > 0) {
         mysqli_stmt_bind_param($stmt, "i", $product_id);
         if (mysqli_stmt_execute($stmt)) {
             $success = "Masterpiece archived successfully.";
-            log_activity($con, $user_id, "Archived product ID $product_id");
+            log_activity($con, $_SESSION['email'], $_SESSION['role'], "Archived product ID $product_id");
         }
         mysqli_stmt_close($stmt);
     }
@@ -38,7 +38,7 @@ if ($action === 'restore' && $product_id > 0) {
         mysqli_stmt_bind_param($stmt, "i", $product_id);
         if (mysqli_stmt_execute($stmt)) {
             $success = "Masterpiece restored successfully.";
-            log_activity($con, $user_id, "Restored product ID $product_id");
+            log_activity($con, $_SESSION['email'], $_SESSION['role'], "Restored product ID $product_id");
         }
         mysqli_stmt_close($stmt);
     }
@@ -57,7 +57,7 @@ if ($action === 'delete' && $product_id > 0) {
             mysqli_stmt_bind_param($stmt, "i", $product_id);
             if (mysqli_stmt_execute($stmt)) {
                 $success = "Masterpiece permanently deleted.";
-                log_activity($con, $user_id, "Deleted product ID $product_id");
+                log_activity($con, $_SESSION['email'], $_SESSION['role'], "Deleted product ID $product_id");
             }
             mysqli_stmt_close($stmt);
         }
@@ -129,7 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($action === 'add' || $action === '
                     
                     if (mysqli_stmt_execute($stmt)) {
                         $success = "Masterpiece catalogued successfully.";
-                        log_activity($con, $user_id, "Created product code $product_code");
+                        log_activity($con, $_SESSION['email'], $_SESSION['role'], "Created product code $product_code");
                         header("Location: products.php");
                         exit();
                     } else {
@@ -158,7 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($action === 'add' || $action === '
                     
                     if (mysqli_stmt_execute($stmt)) {
                         $success = "Masterpiece updated successfully.";
-                        log_activity($con, $user_id, "Updated product ID $product_id");
+                        log_activity($con, $_SESSION['email'], $_SESSION['role'], "Updated product ID $product_id");
                         header("Location: products.php");
                         exit();
                     } else {

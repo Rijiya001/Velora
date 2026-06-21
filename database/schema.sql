@@ -1,38 +1,65 @@
--- VELORA Luxury Showcase Platform Database Schema
--- Compatible with MySQL / MariaDB (XAMPP environment)
--- Database name: kritika
+-- VELORA Luxury Showcase Platform - Database Schema (Separated Users and Admins)
+-- Compatible with MySQL / MariaDB
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
+-- Drop tables in order of foreign key dependencies to avoid constraints issues
+DROP TABLE IF EXISTS `wishlist`;
+DROP TABLE IF EXISTS `activity_logs`;
+DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `admins`;
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Table structure for table `users` (Store only customer data)
 --
-CREATE TABLE IF NOT EXISTS `users` (
+CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `fullname` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL UNIQUE,
   `phone` varchar(50) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
-  `role` enum('user', 'admin', 'superadmin') NOT NULL DEFAULT 'user',
   `status` enum('active', 'suspended') NOT NULL DEFAULT 'active',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_login` timestamp NULL DEFAULT NULL,
-  `created_by` int(11) DEFAULT NULL, -- ID of the admin who created this user (if admin/superadmin)
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping default accounts (Password for both: 'admin123' and 'user123')
+-- Dumping default customer accounts (Password: 'user123')
 --
-INSERT INTO `users` (`id`, `fullname`, `email`, `phone`, `password`, `role`, `status`) VALUES
+INSERT INTO `users` (`id`, `fullname`, `email`, `phone`, `password`, `status`) VALUES
+(1, 'Test Customer', 'customer@velora.com', '9865480192', '$2y$10$w3U6Gj/R63wUv7qQj/iV0e9c61Uj0f.V2zL6qK6w5d5p1m.bC5xFe', 'active');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admins` (Store only administrator and staff logins)
+--
+CREATE TABLE `admins` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `fullname` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL UNIQUE,
+  `phone` varchar(50) DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `role` enum('admin', 'superadmin') NOT NULL DEFAULT 'admin',
+  `status` enum('active', 'suspended') NOT NULL DEFAULT 'active',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `last_login` timestamp NULL DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`created_by`) REFERENCES `admins` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping default admin accounts (Password: 'admin123')
+--
+INSERT INTO `admins` (`id`, `fullname`, `email`, `phone`, `password`, `role`, `status`) VALUES
 (1, 'Super Admin', 'superadmin@velora.com', '9865480190', '$2y$10$tZ2y8s2jG9Zz64uO4QvUheKswm1p64fS/1fLptK/p/6r5c.9c1xFe', 'superadmin', 'active'),
-(2, 'Concierge Admin', 'admin@velora.com', '9865480191', '$2y$10$tZ2y8s2jG9Zz64uO4QvUheKswm1p64fS/1fLptK/p/6r5c.9c1xFe', 'admin', 'active'),
-(3, 'Test Customer', 'customer@velora.com', '9865480192', '$2y$10$w3U6Gj/R63wUv7qQj/iV0e9c61Uj0f.V2zL6qK6w5d5p1m.bC5xFe', 'user', 'active')
-ON DUPLICATE KEY UPDATE `id`=`id`;
+(2, 'Concierge Admin', 'admin@velora.com', '9865480191', '$2y$10$tZ2y8s2jG9Zz64uO4QvUheKswm1p64fS/1fLptK/p/6r5c.9c1xFe', 'admin', 'active');
 
 -- --------------------------------------------------------
 
@@ -66,10 +93,10 @@ CREATE TABLE IF NOT EXISTS `products` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `collection_id` int(11) DEFAULT NULL,
-  `category` varchar(100) NOT NULL, -- e.g. Necklace, Rings, Bangle, etc.
+  `category` varchar(100) NOT NULL,
   `description` text DEFAULT NULL,
-  `material` varchar(100) NOT NULL, -- e.g. 24K Gold, Pure Silver
-  `weight` varchar(50) DEFAULT NULL, -- e.g. 20gm
+  `material` varchar(100) NOT NULL,
+  `weight` varchar(50) DEFAULT NULL,
   `product_code` varchar(50) NOT NULL UNIQUE,
   `is_featured` tinyint(1) NOT NULL DEFAULT '0',
   `is_trending` tinyint(1) NOT NULL DEFAULT '0',
@@ -115,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `product_images` (
 --
 -- Table structure for table `wishlist`
 --
-CREATE TABLE IF NOT EXISTS `wishlist` (
+CREATE TABLE `wishlist` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -161,14 +188,14 @@ CREATE TABLE IF NOT EXISTS `contact_messages` (
 --
 -- Table structure for table `activity_logs`
 --
-CREATE TABLE IF NOT EXISTS `activity_logs` (
+CREATE TABLE `activity_logs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
+  `operator_email` varchar(255) NOT NULL,
+  `operator_role` varchar(50) NOT NULL,
   `action` varchar(255) NOT NULL,
   `ip_address` varchar(50) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------

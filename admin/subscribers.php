@@ -30,7 +30,7 @@ if ($action === 'export') {
     }
     
     fclose($output);
-    log_activity($con, $user_id, "Exported subscriber list as CSV");
+    log_activity($con, $_SESSION['email'], $_SESSION['role'], "Exported subscriber list as CSV");
     exit();
 }
 
@@ -41,7 +41,7 @@ if ($action === 'delete' && $sub_id > 0) {
         mysqli_stmt_bind_param($stmt, "i", $sub_id);
         if (mysqli_stmt_execute($stmt)) {
             $success = "Subscriber removed.";
-            log_activity($con, $user_id, "Deleted subscriber ID $sub_id");
+            log_activity($con, $_SESSION['email'], $_SESSION['role'], "Deleted subscriber ID $sub_id");
         }
         mysqli_stmt_close($stmt);
     }

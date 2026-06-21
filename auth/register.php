@@ -27,21 +27,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (strlen($password) < 6) {
         $error = "Password must be at least 6 characters long.";
     } else {
-        // Check if email already exists
-        $check_stmt = mysqli_prepare($con, "SELECT id FROM users WHERE email = ? LIMIT 1");
-        if ($check_stmt) {
-            mysqli_stmt_bind_param($check_stmt, "s", $email);
-            mysqli_stmt_execute($check_stmt);
-            mysqli_stmt_store_result($check_stmt);
+        // Check if email already exists in users
+        $check_stmt1 = mysqli_prepare($con, "SELECT id FROM users WHERE email = ? LIMIT 1");
+        $check_stmt2 = mysqli_prepare($con, "SELECT id FROM admins WHERE email = ? LIMIT 1");
+        if ($check_stmt1 && $check_stmt2) {
+            mysqli_stmt_bind_param($check_stmt1, "s", $email);
+            mysqli_stmt_execute($check_stmt1);
+            mysqli_stmt_store_result($check_stmt1);
             
-            if (mysqli_stmt_num_rows($check_stmt) > 0) {
+            mysqli_stmt_bind_param($check_stmt2, "s", $email);
+            mysqli_stmt_execute($check_stmt2);
+            mysqli_stmt_store_result($check_stmt2);
+            
+            if (mysqli_stmt_num_rows($check_stmt1) > 0 || mysqli_stmt_num_rows($check_stmt2) > 0) {
                 $error = "This email is already registered.";
             } else {
                 // Securely hash password
                 $hashed_password = password_hash($password, PASSWORD_BCRYPT);
                 
-                // Insert user
-                $insert_stmt = mysqli_prepare($con, "INSERT INTO users (fullname, email, phone, password, role, status) VALUES (?, ?, ?, ?, 'user', 'active')");
+                // Insert user without role column
+                $insert_stmt = mysqli_prepare($con, "INSERT INTO users (fullname, email, phone, password, status) VALUES (?, ?, ?, ?, 'active')");
                 if ($insert_stmt) {
                     mysqli_stmt_bind_param($insert_stmt, "ssss", $fullname, $email, $phone, $hashed_password);
                     if (mysqli_stmt_execute($insert_stmt)) {
@@ -56,7 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $error = "Query preparation failed.";
                 }
             }
-            mysqli_stmt_close($check_stmt);
+            mysqli_stmt_close($check_stmt1);
+            mysqli_stmt_close($check_stmt2);
         }
     }
 }

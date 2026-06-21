@@ -22,50 +22,82 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($email) || empty($password)) {
         $error = "Please fill in all credentials.";
     } else {
-        // Secure Prepared query to find user
-        $stmt = mysqli_prepare($con, "SELECT id, fullname, password, role, status FROM users WHERE email = ? LIMIT 1");
+        // First check in admins table
+        $stmt = mysqli_prepare($con, "SELECT id, fullname, password, role, status FROM admins WHERE email = ? LIMIT 1");
         if ($stmt) {
             mysqli_stmt_bind_param($stmt, "s", $email);
             mysqli_stmt_execute($stmt);
             mysqli_stmt_store_result($stmt);
             
             if (mysqli_stmt_num_rows($stmt) == 1) {
-                mysqli_stmt_bind_result($stmt, $user_id, $fullname, $hashed_password, $role, $status);
+                mysqli_stmt_bind_result($stmt, $admin_id, $fullname, $hashed_password, $role, $status);
                 mysqli_stmt_fetch($stmt);
+                mysqli_stmt_close($stmt);
                 
                 if ($status === 'suspended') {
                     $error = "Your account has been suspended by an administrator.";
                 } elseif (password_verify($password, $hashed_password)) {
-                    // Password verified! Setup Session variables
-                    $_SESSION['user_id'] = $user_id;
+                    $_SESSION['user_id'] = $admin_id;
                     $_SESSION['fullname'] = $fullname;
                     $_SESSION['email'] = $email;
-                    $_SESSION['role'] = $role;
+                    $_SESSION['role'] = $role; // admin or superadmin
                     
-                    // Update last login timestamp
-                    $update_stmt = mysqli_prepare($con, "UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?");
+                    $update_stmt = mysqli_prepare($con, "UPDATE admins SET last_login = CURRENT_TIMESTAMP WHERE id = ?");
                     if ($update_stmt) {
-                        mysqli_stmt_bind_param($update_stmt, "i", $user_id);
+                        mysqli_stmt_bind_param($update_stmt, "i", $admin_id);
                         mysqli_stmt_execute($update_stmt);
                         mysqli_stmt_close($update_stmt);
                     }
                     
-                    log_activity($con, $user_id, "User logged in successfully");
-
-                    // Redirect based on role
-                    if ($role === 'admin' || $role === 'superadmin') {
-                        header('Location: ../admin/dashboard.php');
-                    } else {
-                        header('Location: ../index.php');
-                    }
+                    log_activity($con, $email, $role, "Admin logged in successfully");
+                    header('Location: ../admin/dashboard.php');
                     exit();
                 } else {
                     $error = "Invalid password credential.";
                 }
             } else {
-                $error = "Account not found.";
+                mysqli_stmt_close($stmt);
+                // Not found in admins, check users (customers) table
+                $stmt = mysqli_prepare($con, "SELECT id, fullname, password, status FROM users WHERE email = ? LIMIT 1");
+                if ($stmt) {
+                    mysqli_stmt_bind_param($stmt, "s", $email);
+                    mysqli_stmt_execute($stmt);
+                    mysqli_stmt_store_result($stmt);
+                    
+                    if (mysqli_stmt_num_rows($stmt) == 1) {
+                        mysqli_stmt_bind_result($stmt, $user_id, $fullname, $hashed_password, $status);
+                        mysqli_stmt_fetch($stmt);
+                        mysqli_stmt_close($stmt);
+                        
+                        if ($status === 'suspended') {
+                            $error = "Your account has been suspended by an administrator.";
+                        } elseif (password_verify($password, $hashed_password)) {
+                            $_SESSION['user_id'] = $user_id;
+                            $_SESSION['fullname'] = $fullname;
+                            $_SESSION['email'] = $email;
+                            $_SESSION['role'] = 'user';
+                            
+                            $update_stmt = mysqli_prepare($con, "UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?");
+                            if ($update_stmt) {
+                                mysqli_stmt_bind_param($update_stmt, "i", $user_id);
+                                mysqli_stmt_execute($update_stmt);
+                                mysqli_stmt_close($update_stmt);
+                            }
+                            
+                            log_activity($con, $email, 'user', "Customer logged in successfully");
+                            header('Location: ../index.php');
+                            exit();
+                        } else {
+                            $error = "Invalid password credential.";
+                        }
+                    } else {
+                        mysqli_stmt_close($stmt);
+                        $error = "Account not found.";
+                    }
+                } else {
+                    $error = "System query preparation error.";
+                }
             }
-            mysqli_stmt_close($stmt);
         } else {
             $error = "System query preparation error.";
         }

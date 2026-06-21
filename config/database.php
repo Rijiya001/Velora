@@ -51,13 +51,16 @@ if (!mysqli_select_db($con, DB_NAME)) {
 // Set encoding
 mysqli_set_charset($con, 'utf8mb4');
 
-// Auto-Installer Logic: Check if 'users' table exists. If not, import schema.sql automatically.
-$table_check = mysqli_query($con, "SHOW TABLES LIKE 'users'");
+// Auto-Installer Logic: Check if 'admins' table exists. If not, import schema.sql automatically.
+$table_check = mysqli_query($con, "SHOW TABLES LIKE 'admins'");
 if (mysqli_num_rows($table_check) == 0) {
     $schema_path = dirname(__DIR__) . '/database/schema.sql';
     
     if (file_exists($schema_path)) {
         $sql_content = file_get_contents($schema_path);
+        
+        // Normalize line endings to prevent Windows split failures
+        $sql_content = str_replace("\r\n", "\n", $sql_content);
         
         // Remove comments
         $sql_content = preg_replace('/--.*\n/', '', $sql_content);
@@ -126,11 +129,11 @@ function get_setting($con, $key, $default = '') {
 /**
  * Log user/admin activity
  */
-function log_activity($con, $user_id, $action) {
+function log_activity($con, $email, $role, $action) {
     $ip = $_SERVER['REMOTE_ADDR'] ?? 'Unknown';
-    $stmt = mysqli_prepare($con, "INSERT INTO activity_logs (user_id, action, ip_address) VALUES (?, ?, ?)");
+    $stmt = mysqli_prepare($con, "INSERT INTO activity_logs (operator_email, operator_role, action, ip_address) VALUES (?, ?, ?, ?)");
     if ($stmt) {
-        mysqli_stmt_bind_param($stmt, "iss", $user_id, $action, $ip);
+        mysqli_stmt_bind_param($stmt, "ssss", $email, $role, $action, $ip);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
     }

@@ -32,7 +32,7 @@ if ($action === 'delete' && $media_id > 0) {
             mysqli_stmt_bind_param($del_stmt, "i", $media_id);
             if (mysqli_stmt_execute($del_stmt)) {
                 $success = "Media item deleted.";
-                log_activity($con, $user_id, "Deleted gallery media item ID $media_id");
+                log_activity($con, $_SESSION['email'], $_SESSION['role'], "Deleted gallery media item ID $media_id");
                 
                 // Delete actual file
                 $full_path = dirname(__DIR__) . '/' . $file_path;
@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'upload') {
                 mysqli_stmt_bind_param($stmt, "sss", $relative_path, $title, $description);
                 if (mysqli_stmt_execute($stmt)) {
                     $success = "Image uploaded to atelier gallery.";
-                    log_activity($con, $user_id, "Uploaded gallery photo: $title");
+                    log_activity($con, $_SESSION['email'], $_SESSION['role'], "Uploaded gallery photo: $title");
                     header("Location: media.php");
                     exit();
                 } else {

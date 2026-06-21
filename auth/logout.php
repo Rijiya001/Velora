@@ -2,8 +2,8 @@
 // Velora Logout Controller
 require_once dirname(__DIR__) . '/config/database.php';
 
-if (isset($_SESSION['user_id'])) {
-    log_activity($con, $_SESSION['user_id'], "User logged out");
+if (isset($_SESSION['email'])) {
+    log_activity($con, $_SESSION['email'], $_SESSION['role'], "User logged out");
 }
 
 // Unset all session variables

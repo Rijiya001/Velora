@@ -13,14 +13,15 @@ $error = "";
 $success = "";
 
 // Fetch current user details
-$stmt = mysqli_prepare($con, "SELECT fullname, email, phone, role, status FROM users WHERE id = ? LIMIT 1");
+$stmt = mysqli_prepare($con, "SELECT fullname, email, phone, status FROM users WHERE id = ? LIMIT 1");
 if ($stmt) {
     mysqli_stmt_bind_param($stmt, "i", $user_id);
     mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $fullname, $email, $phone, $role, $status);
+    mysqli_stmt_bind_result($stmt, $fullname, $email, $phone, $status);
     mysqli_stmt_fetch($stmt);
     mysqli_stmt_close($stmt);
 }
+$role = "customer";
 
 // Handle Profile Updates
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
@@ -40,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
                 $phone = $new_phone;
                 $_SESSION['fullname'] = $fullname;
                 $success = "Profile updated successfully.";
-                log_activity($con, $user_id, "Updated personal profile details");
+                log_activity($con, $email, 'user', "Updated personal profile details");
             } else {
                 $error = "Failed to update profile details.";
             }
@@ -81,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['change_password'])) {
                     mysqli_stmt_bind_param($pass_update, "si", $new_hashed, $user_id);
                     if (mysqli_stmt_execute($pass_update)) {
                         $success = "Password updated successfully.";
-                        log_activity($con, $user_id, "Changed account password");
+                        log_activity($con, $email, 'user', "Changed account password");
                     } else {
                         $error = "Failed to update password.";
                     }

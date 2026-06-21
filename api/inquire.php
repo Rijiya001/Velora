@@ -27,8 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         if (mysqli_stmt_execute($stmt)) {
             // Optional: log user activity if authenticated
-            if (isset($_SESSION['user_id'])) {
-                log_activity($con, $_SESSION['user_id'], "Submitted custom product inquiry for Code " . ($product_code ?? 'None'));
+            if (isset($_SESSION['email'])) {
+                log_activity($con, $_SESSION['email'], $_SESSION['role'], "Submitted custom product inquiry for Code " . ($product_code ?? 'None'));
             }
             
             echo json_encode(['status' => 'success', 'message' => 'Inquiry submitted successfully.']);

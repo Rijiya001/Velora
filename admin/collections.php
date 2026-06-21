@@ -25,7 +25,7 @@ if ($action === 'delete' && $col_id > 0) {
             mysqli_stmt_bind_param($stmt, "i", $col_id);
             if (mysqli_stmt_execute($stmt)) {
                 $success = "Collection archive permanently deleted.";
-                log_activity($con, $user_id, "Deleted collection ID $col_id");
+                log_activity($con, $_SESSION['email'], $_SESSION['role'], "Deleted collection ID $col_id");
             }
             mysqli_stmt_close($stmt);
         }
@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($action === 'add' || $action === '
                 mysqli_stmt_bind_param($stmt, "sssi", $name, $description, $banner_image_path, $display_order);
                 if (mysqli_stmt_execute($stmt)) {
                     $success = "Collection created successfully.";
-                    log_activity($con, $user_id, "Created collection: $name");
+                    log_activity($con, $_SESSION['email'], $_SESSION['role'], "Created collection: $name");
                     header("Location: collections.php");
                     exit();
                 } else {
@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($action === 'add' || $action === '
                 mysqli_stmt_bind_param($stmt, "sssii", $name, $description, $banner_image_path, $display_order, $col_id);
                 if (mysqli_stmt_execute($stmt)) {
                     $success = "Collection updated successfully.";
-                    log_activity($con, $user_id, "Updated collection ID $col_id");
+                    log_activity($con, $_SESSION['email'], $_SESSION['role'], "Updated collection ID $col_id");
                     header("Location: collections.php");
                     exit();
                 } else {

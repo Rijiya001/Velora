@@ -12,11 +12,11 @@ $user_role = $_SESSION['role'];
 $user_name = $_SESSION['fullname'];
 
 // 1. Fetch statistics
-$total_users = mysqli_fetch_row(mysqli_query($con, "SELECT COUNT(*) FROM users WHERE role = 'user'"))[0];
+$total_users = mysqli_fetch_row(mysqli_query($con, "SELECT COUNT(*) FROM users"))[0];
 $total_subs = mysqli_fetch_row(mysqli_query($con, "SELECT COUNT(*) FROM subscribers"))[0];
 $total_prods = mysqli_fetch_row(mysqli_query($con, "SELECT COUNT(*) FROM products"))[0];
 $total_cols = mysqli_fetch_row(mysqli_query($con, "SELECT COUNT(*) FROM collections"))[0];
-$total_admins = mysqli_fetch_row(mysqli_query($con, "SELECT COUNT(*) FROM users WHERE role IN ('admin', 'superadmin')"))[0];
+$total_admins = mysqli_fetch_row(mysqli_query($con, "SELECT COUNT(*) FROM admins"))[0];
 $total_inqs = mysqli_fetch_row(mysqli_query($con, "SELECT COUNT(*) FROM contact_messages"))[0];
 
 include dirname(__DIR__) . '/includes/header.php';
@@ -113,7 +113,7 @@ include dirname(__DIR__) . '/includes/header.php';
                     </thead>
                     <tbody>
                         <?php
-                        $users_query = mysqli_query($con, "SELECT fullname, email, status FROM users WHERE role = 'user' ORDER BY id DESC LIMIT 5");
+                        $users_query = mysqli_query($con, "SELECT fullname, email, status FROM users ORDER BY id DESC LIMIT 5");
                         if (mysqli_num_rows($users_query) > 0):
                             while ($usr = mysqli_fetch_assoc($users_query)):
                         ?>
@@ -146,7 +146,7 @@ include dirname(__DIR__) . '/includes/header.php';
             <table class="luxury-table">
                 <thead>
                     <tr>
-                        <th>User ID</th>
+                        <th>Operator</th>
                         <th>Action</th>
                         <th>IP Address</th>
                         <th>Timestamp</th>
@@ -154,14 +154,12 @@ include dirname(__DIR__) . '/includes/header.php';
                 </thead>
                 <tbody>
                     <?php
-                    $logs_query = mysqli_query($con, "SELECT a.*, u.fullname FROM activity_logs a 
-                                                      LEFT JOIN users u ON a.user_id = u.id 
-                                                      ORDER BY a.id DESC LIMIT 6");
+                    $logs_query = mysqli_query($con, "SELECT * FROM activity_logs ORDER BY id DESC LIMIT 6");
                     if (mysqli_num_rows($logs_query) > 0):
                         while ($log = mysqli_fetch_assoc($logs_query)):
                     ?>
                         <tr>
-                            <td style="font-weight:600;"><?php echo $log['user_id'] ? xss_clean($log['fullname']) . ' (ID: ' . $log['user_id'] . ')' : 'Guest'; ?></td>
+                            <td style="font-weight:600;"><?php echo xss_clean($log['operator_email']) . ' (' . xss_clean(strtoupper($log['operator_role'])) . ')'; ?></td>
                             <td><?php echo xss_clean($log['action']); ?></td>
                             <td><code><?php echo xss_clean($log['ip_address']); ?></code></td>
                             <td style="font-size:0.8rem; color:var(--color-warm-gray);"><?php echo date('Y-m-d H:i:s', strtotime($log['created_at'])); ?></td>
