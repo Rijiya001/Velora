@@ -873,6 +873,7 @@ textarea.form-control {
   border-radius: 4px;
   padding: 30px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.01);
+  overflow-x: auto; /* Prevent horizontal page scroll for wide tables */
 }
 
 .table-header {
@@ -893,6 +894,7 @@ textarea.form-control {
 
 .luxury-table {
   width: 100%;
+  min-width: 700px; /* Ensures table doesn't collapse on narrow screens */
   border-collapse: collapse;
   text-align: left;
 }
@@ -900,18 +902,19 @@ textarea.form-control {
 .luxury-table th {
   background-color: var(--color-soft-ivory);
   font-family: var(--font-body);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  padding: 15px 20px;
+  padding: 12px 14px;
   color: var(--color-deep-charcoal);
   border-bottom: 2px solid var(--color-border-gray);
+  white-space: nowrap;
 }
 
 .luxury-table td {
-  padding: 15px 20px;
-  font-size: 0.85rem;
+  padding: 12px 14px;
+  font-size: 0.82rem;
   color: var(--color-deep-charcoal);
   border-bottom: 1px solid var(--color-border-gray);
   vertical-align: middle;
@@ -931,11 +934,13 @@ textarea.form-control {
 /* Badges */
 .badge {
   display: inline-block;
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   font-weight: 600;
   text-transform: uppercase;
-  padding: 4px 8px;
-  border-radius: 2px;
+  padding: 4px 10px;
+  border-radius: 3px;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
 }
 
 .badge-active { background-color: var(--color-success-light); color: var(--color-success); }
@@ -945,11 +950,83 @@ textarea.form-control {
 /* Actions */
 .action-links {
   display: flex;
-  gap: 12px;
+  gap: 10px;
+  white-space: nowrap;
 }
 
-.action-edit { color: var(--color-champagne-gold); font-weight: 500; }
-.action-delete { color: var(--color-error); font-weight: 500; }
+.action-edit { color: var(--color-champagne-gold); font-weight: 500; font-size: 0.8rem; }
+.action-delete { color: var(--color-error); font-weight: 500; font-size: 0.8rem; }
+
+/* Admin Tab Navigation */
+.admin-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 25px;
+}
+
+.admin-tab {
+  display: inline-block;
+  padding: 8px 22px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: var(--transition-fast);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.admin-tab-active {
+  background-color: var(--color-deep-charcoal);
+  color: var(--color-pure-white);
+}
+
+.admin-tab-inactive {
+  background-color: var(--color-pure-white);
+  border: 1px solid var(--color-border-gray);
+  color: var(--color-warm-gray);
+}
+
+.admin-tab-inactive:hover {
+  border-color: var(--color-champagne-gold);
+  color: var(--color-deep-charcoal);
+}
+
+/* Admin Section Headings (for Settings page) */
+.admin-section-heading {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-champagne-gold);
+  margin-bottom: 20px;
+}
+
+/* Form Enhancements */
+.form-control[type="file"] {
+  padding: 10px 14px;
+  background-color: var(--color-soft-ivory);
+  border: 1px dashed var(--color-border-gray);
+  cursor: pointer;
+  font-size: 0.82rem;
+}
+
+.form-control[type="file"]:hover {
+  border-color: var(--color-champagne-gold);
+  background-color: var(--color-light-beige);
+}
+
+/* Admin form rows */
+.row {
+  display: flex;
+  gap: 20px;
+}
+
+.row .col {
+  flex: 1;
+}
 
 /* ==========================================================================
    GALLERY PAGE

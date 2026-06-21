@@ -41,9 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             mkdir($target_dir, 0777, true);
         }
 
-        $dest_path = $target_dir . "hero_" . time() . "_" . $file_name;
+        $timestamp = time();
+        $dest_path = $target_dir . "hero_" . $timestamp . "_" . $file_name;
         if (move_uploaded_file($file_tmp, $dest_path)) {
-            $settings['hero_image'] = "assets/uploads/banners/hero_" . time() . "_" . $file_name;
+            $settings['hero_image'] = "assets/uploads/banners/hero_" . $timestamp . "_" . $file_name;
         }
     }
 
@@ -110,7 +111,7 @@ include dirname(__DIR__) . '/includes/header.php';
             <form action="" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="csrf_token" value="<?php echo get_csrf_token(); ?>">
 
-                <h3 style="margin-bottom:20px; border-bottom:1px solid var(--color-border-gray); padding-bottom:10px; color:var(--color-rose-gold);">General Configurations</h3>
+                <h3 class="admin-section-heading" style="padding-bottom:10px; border-bottom:1px solid var(--color-border-gray);">General Configurations</h3>
                 
                 <div class="row">
                     <div class="col" style="flex:1;">
@@ -127,7 +128,7 @@ include dirname(__DIR__) . '/includes/header.php';
                     </div>
                 </div>
 
-                <h3 style="margin-top:40px; margin-bottom:20px; border-bottom:1px solid var(--color-border-gray); padding-bottom:10px; color:var(--color-rose-gold);">Homepage Hero Section</h3>
+                <h3 class="admin-section-heading" style="margin-top:40px; padding-bottom:10px; border-bottom:1px solid var(--color-border-gray);">Homepage Hero Section</h3>
                 
                 <div class="form-group">
                     <label for="hero_title">Hero H1 Title (supports HTML formatting)</label>
@@ -150,7 +151,7 @@ include dirname(__DIR__) . '/includes/header.php';
                     <?php endif; ?>
                 </div>
 
-                <h3 style="margin-top:40px; margin-bottom:20px; border-bottom:1px solid var(--color-border-gray); padding-bottom:10px; color:var(--color-rose-gold);">About Brand Narrative</h3>
+                <h3 class="admin-section-heading" style="margin-top:40px; padding-bottom:10px; border-bottom:1px solid var(--color-border-gray);">About Brand Narrative</h3>
                 
                 <div class="form-group">
                     <label for="about_story">Brand Heritage Story</label>
@@ -167,7 +168,7 @@ include dirname(__DIR__) . '/includes/header.php';
                     <textarea id="about_vision" name="about_vision" class="form-control"><?php echo xss_clean($about_vision_val); ?></textarea>
                 </div>
 
-                <h3 style="margin-top:40px; margin-bottom:20px; border-bottom:1px solid var(--color-border-gray); padding-bottom:10px; color:var(--color-rose-gold);">Contact Details & Hours</h3>
+                <h3 class="admin-section-heading" style="margin-top:40px; padding-bottom:10px; border-bottom:1px solid var(--color-border-gray);">Contact Details &amp; Hours</h3>
                 
                 <div class="form-group">
                     <label for="contact_address">Showroom Address</label>

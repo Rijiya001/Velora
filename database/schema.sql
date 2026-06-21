@@ -32,7 +32,7 @@ CREATE TABLE `users` (
 -- Dumping default customer accounts (Password: 'user123')
 --
 INSERT INTO `users` (`id`, `fullname`, `email`, `phone`, `password`, `status`) VALUES
-(1, 'Test Customer', 'customer@velora.com', '9865480192', '$2y$10$w3U6Gj/R63wUv7qQj/iV0e9c61Uj0f.V2zL6qK6w5d5p1m.bC5xFe', 'active');
+(1, 'Test Customer', 'customer@velora.com', '9865480192', '$2y$10$xwsVCH9QCn81cR/e9iUScOMzkeIFxOBEUxGPUXA1XGERhvYouqpiK', 'active');
 
 -- --------------------------------------------------------
 
@@ -58,8 +58,8 @@ CREATE TABLE `admins` (
 -- Dumping default admin accounts (Password: 'admin123')
 --
 INSERT INTO `admins` (`id`, `fullname`, `email`, `phone`, `password`, `role`, `status`) VALUES
-(1, 'Super Admin', 'superadmin@velora.com', '9865480190', '$2y$10$tZ2y8s2jG9Zz64uO4QvUheKswm1p64fS/1fLptK/p/6r5c.9c1xFe', 'superadmin', 'active'),
-(2, 'Concierge Admin', 'admin@velora.com', '9865480191', '$2y$10$tZ2y8s2jG9Zz64uO4QvUheKswm1p64fS/1fLptK/p/6r5c.9c1xFe', 'admin', 'active');
+(1, 'Super Admin', 'superadmin@velora.com', '9865480190', '$2y$10$uXipdbZnz6Csoa06zA4P..8XU1FPMVsfi4CHsjlfKGRmrw4mDxWRW', 'superadmin', 'active'),
+(2, 'Concierge Admin', 'admin@velora.com', '9865480191', '$2y$10$uXipdbZnz6Csoa06zA4P..8XU1FPMVsfi4CHsjlfKGRmrw4mDxWRW', 'admin', 'active');
 
 -- --------------------------------------------------------
 

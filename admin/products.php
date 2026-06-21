@@ -98,10 +98,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($action === 'add' || $action === '
             mkdir($target_dir, 0777, true);
         }
         
-        $dest_path = $target_dir . time() . "_" . $file_name;
+        $timestamp = time();
+        $dest_path = $target_dir . $timestamp . "_" . $file_name;
         if (move_uploaded_file($file_tmp, $dest_path)) {
             // Path relative to root of website for rendering in src attributes
-            $main_image_path = "assets/uploads/products/" . time() . "_" . $file_name;
+            $main_image_path = "assets/uploads/products/" . $timestamp . "_" . $file_name;
         } else {
             $error = "Failed to upload image.";
         }

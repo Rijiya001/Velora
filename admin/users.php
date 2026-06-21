@@ -197,14 +197,14 @@ include dirname(__DIR__) . '/includes/header.php';
         <?php if ($action === 'list'): ?>
             
             <!-- Tab Headers -->
-            <div style="display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 1px solid var(--color-border-gray); padding-bottom: 10px;">
-                <a href="?tab=admins" class="btn btn-sm <?php echo $tab === 'admins' ? '' : 'btn-secondary'; ?>" style="border-radius: 20px; padding: 6px 20px;">
-                    Administrators & Staff (<?php 
+            <div class="admin-tabs">
+                <a href="?tab=admins" class="admin-tab <?php echo $tab === 'admins' ? 'admin-tab-active' : 'admin-tab-inactive'; ?>">
+                    Administrators &amp; Staff (<?php 
                         $c_q = mysqli_query($con, "SELECT COUNT(*) FROM admins");
                         echo mysqli_fetch_row($c_q)[0];
                     ?>)
                 </a>
-                <a href="?tab=customers" class="btn btn-sm <?php echo $tab === 'customers' ? '' : 'btn-secondary'; ?>" style="border-radius: 20px; padding: 6px 20px;">
+                <a href="?tab=customers" class="admin-tab <?php echo $tab === 'customers' ? 'admin-tab-active' : 'admin-tab-inactive'; ?>">
                     Registered Customers (<?php 
                         $c_q = mysqli_query($con, "SELECT COUNT(*) FROM users");
                         echo mysqli_fetch_row($c_q)[0];

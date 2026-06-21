@@ -68,9 +68,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'upload') {
             mkdir($target_dir, 0777, true);
         }
 
-        $dest_path = $target_dir . time() . "_" . $file_name;
+        $timestamp = time();
+        $dest_path = $target_dir . $timestamp . "_" . $file_name;
         if (move_uploaded_file($file_tmp, $dest_path)) {
-            $relative_path = "assets/uploads/gallery/" . time() . "_" . $file_name;
+            $relative_path = "assets/uploads/gallery/" . $timestamp . "_" . $file_name;
             
             $stmt = mysqli_prepare($con, "INSERT INTO gallery (image_path, title, description) VALUES (?, ?, ?)");
             if ($stmt) {
