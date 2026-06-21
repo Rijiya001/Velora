@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velora | Luxury Jewelry Showcase</title>
+    <meta name="description" content="Discover Velora Luxury Jewelry. Crafted for timeless elegance, using conflict-free diamonds and ethically sourced gold. Inquire about custom heirloom pieces.">
+    
+    <!-- CSS Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Netlify Forms Background Hook (ensures Netlify detects our forms) -->
+    <form name="velora-inquiries" data-netlify="true" hidden>
+        <input type="text" name="client_name">
+        <input type="email" name="client_email">
+        <input type="text" name="product_code">
+        <input type="text" name="product_name">
+        <textarea name="client_message"></textarea>
+    </form>
+    <form name="velora-newsletter" data-netlify="true" hidden>
+        <input type="email" name="subscriber_email">
+    </form>
+
+    <!-- Top Promotion Bar -->
+    <div class="promo-bar">
+        <p>Subscribe for Instant Updates on New Jewelry Arrivals & Private Showings</p>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header id="main-header">
+        <nav>
+            <div class="logo-container">
+                <a href="#home">Velora<span>.</span></a>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#latest">Latest Arrivals</a></li>
+                <li><a href="#gallery">All Available</a></li>
+                <li><a href="#about">Our Story</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            
+            <ul class="nav-icons">
+                <li><a href="#gallery" title="Search">🔍</a></li>
+                <li>
+                    <button class="wishlist-trigger-btn" onclick="toggleWishlistModal()" title="Wishlist">
+                        ♥ <span id="wishlist-count">0</span>
+                    </button>
+                </li>
+                <li>
+                    <button class="chat-trigger-btn" onclick="openChatDrawer()" title="Message Concierge">
+                        💬 <span class="status-dot"></span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content Area -->
+    <main id="home">
+        
+        <!-- Hero Section -->
+        <section class="hero-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col col-text">
+                        <div class="hero-text">
+                            <span class="hero-tag">Signature Campaign 2026</span>
+                            <h1>Give your looks<br>A New Style</h1>
+                            <p>"Make jewellery contact before eyes contact"</p>
+                            <a href="#gallery" class="btn">Discover Collections</a>
+                        </div>
+                    </div>
+                    <div class="col col-img">
+                        <div class="hero-image">
+                            <img src="designs/design3.jpg" alt="Velora Fine Jewelry Band">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Latest Arrivals Segment -->
+        <section class="latest-section" id="latest">
+            <div class="container">
+                <h2>Latest Creations</h2>
+                <p class="section-subtitle">Our newest hand-crafted arrivals, freshly cataloged in the Velora studio.</p>
+                
+                <div class="products-grid latest-grid">
+                    <!-- Product 1: Necklace -->
+                    <div class="product-card" data-category="necklaces" data-material="gold">
+                        <div class="product-badge">New Arrival</div>
+                        <button class="product-wishlist" onclick="toggleWishlist(this, '#01', 'Heirloom Necklace')" aria-label="Add to wishlist"></button>
+                        <div class="product-image-container">
+                            <img src="designs/necklace1.jpg" alt="The Heirloom Necklace">
+                        </div>
+                        <div class="product-info">
+                            <div>
+                                <div class="product-material">24K Gold</div>
+                                <h3 class="product-title">Heirloom Necklace</h3>
+                                <ul class="product-specs">
+                                    <li>Weight: <span>20gm</span></li>
+                                    <li>Code: <span>#01</span></li>
+                                </ul>
+                            </div>
+                            <div class="product-actions">
+                                <button onclick="triggerInquiry('#01', 'Heirloom Necklace')" class="btn">Inquire Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 2: Ring -->
+                    <div class="product-card" data-category="rings" data-material="gold">
+                        <div class="product-badge">New Arrival</div>
+                        <button class="product-wishlist" onclick="toggleWishlist(this, '#02', 'Elegance Ring Band')" aria-label="Add to wishlist"></button>
+                        <div class="product-image-container">
+                            <img src="designs/rings1.jpg" alt="Elegance Ring Band">
+                        </div>
+                        <div class="product-info">
+                            <div>
+                                <div class="product-material">23K Gold</div>
+                                <h3 class="product-title">Elegance Ring Band</h3>
+                                <ul class="product-specs">
+                                    <li>Weight: <span>20gm</span></li>
+                                    <li>Code: <span>#02</span></li>
+                                </ul>
+                            </div>
+                            <div class="product-actions">
+                                <button onclick="triggerInquiry('#02', 'Elegance Ring Band')" class="btn">Inquire Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 3: Chandrama -->
+                    <div class="product-card" data-category="necklaces" data-material="gold">
+                        <div class="product-badge">New Arrival</div>
+                        <button class="product-wishlist" onclick="toggleWishlist(this, '#06', 'Lunar Chandrama')" aria-label="Add to wishlist"></button>
+                        <div class="product-image-container">
+                            <img src="designs/chandrama1.jpg" alt="Lunar Chandrama">
+                        </div>
+                        <div class="product-info">
+                            <div>
+                                <div class="product-material">24K Gold</div>
+                                <h3 class="product-title">Lunar Chandrama</h3>
+                                <ul class="product-specs">
+                                    <li>Weight: <span>15gm</span></li>
+                                    <li>Code: <span>#06</span></li>
+                                </ul>
+                            </div>
+                            <div class="product-actions">
+                                <button onclick="triggerInquiry('#06', 'Lunar Chandrama')" class="btn">Inquire Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Brand Story Campaign -->
+        <section class="promo-section alt-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col col-img">
+                        <div class="promo-image">
+                            <img src="designs/design4.jpg" alt="Velora Artistry & Design">
+                        </div>
+                    </div>
+                    <div class="col col-text">
+                        <div class="promo-text">
+                            <h2>Jewelry is like ice cream.</h2>
+                            <p><em>"There is always room for more."</em> At Velora, we focus entirely on the aesthetic elegance of our showcases. We don't just design ornaments; we design stories to be worn, passed down, and celebrated.</p>
+                            <a href="#gallery" class="btn btn-secondary">View Catalog</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Full Catalog Section -->
+        <section class="gallery-section" id="gallery">
+            <div class="container">
+                <h2>Our Collection Showcase</h2>
+                <p class="section-subtitle">Browse all available designs currently in our catalog. Click any item to open direct chat inquiries.</p>
+                
+                <!-- Category Filter Tabs -->
+                <div class="catalog-filters">
+                    <button class="filter-tab active" onclick="filterCatalog('all', this)">All jewelry</button>
+                    <button class="filter-tab" onclick="filterCatalog('gold', this)">Gold pieces</button>
+                    <button class="filter-tab" onclick="filterCatalog('silver', this)">Silver pieces</button>
+                    <button class="filter-tab" onclick="filterCatalog('necklaces', this)">Necklaces</button>
+                    <button class="filter-tab" onclick="filterCatalog('rings', this)">Rings & Bangles</button>
+                </div>
+
+                <div class="products-grid catalog-grid">
+                    
+                    <!-- Card 1: Necklace -->
+                    <div class="product-card" data-category="necklaces" data-material="gold">
+                        <button class="product-wishlist" onclick="toggleWishlist(this, '#01', 'Heirloom Necklace')" aria-label="Add to wishlist"></button>
+                        <div class="product-image-container">
+                            <img src="designs/necklace1.jpg" alt="Heirloom Necklace">
+                        </div>
+                        <div class="product-info">
+                            <div>
+                                <div class="product-material">24K Gold</div>
+                                <h3 class="product-title">Heirloom Necklace</h3>
+                                <ul class="product-specs">
+                                    <li>Weight: <span>20gm</span></li>
+                                    <li>Code: <span>#01</span></li>
+                                </ul>
+                            </div>
+                            <div class="product-actions">
+                                <button onclick="triggerInquiry('#01', 'Heirloom Necklace')" class="btn">Inquire Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Ring -->
+                    <div class="product-card" data-category="rings" data-material="gold">
+                        <button class="product-wishlist" onclick="toggleWishlist(this, '#02', 'Elegance Ring Band')" aria-label="Add to wishlist"></button>
+                        <div class="product-image-container">
+                            <img src="designs/rings1.jpg" alt="Elegance Ring Band">
+                        </div>
+                        <div class="product-info">
+                            <div>
+                                <div class="product-material">23K Gold</div>
+                                <h3 class="product-title">Elegance Ring Band</h3>
+                                <ul class="product-specs">
+                                    <li>Weight: <span>20gm</span></li>
+                                    <li>Code: <span>#02</span></li>
+                                </ul>
+                            </div>
+                            <div class="product-actions">
+                                <button onclick="triggerInquiry('#02', 'Elegance Ring Band')" class="btn">Inquire Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Anklet -->
+                    <div class="product-card" data-category="anklets" data-material="silver">
+                        <button class="product-wishlist" onclick="toggleWishlist(this, '#03', 'Classic Silver Anklet')" aria-label="Add to wishlist"></button>
+                        <div class="product-image-container">
+                            <img src="designs/anklet1.jpg" alt="Classic Silver Anklet">
+                        </div>
+                        <div class="product-info">
+                            <div>
+                                <div class="product-material">Pure Silver</div>
+                                <h3 class="product-title">Classic Silver Anklet</h3>
+                                <ul class="product-specs">
+                                    <li>Weight: <span>20gm</span></li>
+                                    <li>Code: <span>#03</span></li>
+                                </ul>
+                            </div>
+                            <div class="product-actions">
+                                <button onclick="triggerInquiry('#03', 'Classic Silver Anklet')" class="btn">Inquire Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: Mangalsutra -->
+                    <div class="product-card" data-category="necklaces" data-material="gold">
+                        <button class="product-wishlist" onclick="toggleWishlist(this, '#04', 'Sovereign Mangalsutra')" aria-label="Add to wishlist"></button>
+                        <div class="product-image-container">
+                            <img src="designs/mangalsutra1.jpg" alt="Sovereign Mangalsutra">
+                        </div>
+                        <div class="product-info">
+                            <div>
+                                <div class="product-material">24K Gold</div>
+                                <h3 class="product-title">Sovereign Mangalsutra</h3>
+                                <ul class="product-specs">
+                                    <li>Weight: <span>20gm</span></li>
+                                    <li>Code: <span>#04</span></li>
+                                </ul>
+                            </div>
+                            <div class="product-actions">
+                                <button onclick="triggerInquiry('#04', 'Sovereign Mangalsutra')" class="btn">Inquire Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 5: Naugedi -->
+                    <div class="product-card" data-category="necklaces" data-material="gold">
+                        <button class="product-wishlist" onclick="toggleWishlist(this, '#05', 'Traditional Naugedi')" aria-label="Add to wishlist"></button>
+                        <div class="product-image-container">
+                            <img src="designs/naugedi1.jpg" alt="Traditional Naugedi">
+                        </div>
+                        <div class="product-info">
+                            <div>
+                                <div class="product-material">24K Gold</div>
+                                <h3 class="product-title">Traditional Naugedi</h3>
+                                <ul class="product-specs">
+                                    <li>Weight: <span>11.11gm</span></li>
+                                    <li>Code: <span>#05</span></li>
+                                </ul>
+                            </div>
+                            <div class="product-actions">
+                                <button onclick="triggerInquiry('#05', 'Traditional Naugedi')" class="btn">Inquire Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 6: Chandrama -->
+                    <div class="product-card" data-category="necklaces" data-material="gold">
+                        <button class="product-wishlist" onclick="toggleWishlist(this, '#06', 'Lunar Chandrama')" aria-label="Add to wishlist"></button>
+                        <div class="product-image-container">
+                            <img src="designs/chandrama1.jpg" alt="Lunar Chandrama">
+                        </div>
+                        <div class="product-info">
+                            <div>
+                                <div class="product-material">24K Gold</div>
+                                <h3 class="product-title">Lunar Chandrama</h3>
+                                <ul class="product-specs">
+                                    <li>Weight: <span>15gm</span></li>
+                                    <li>Code: <span>#06</span></li>
+                                </ul>
+                            </div>
+                            <div class="product-actions">
+                                <button onclick="triggerInquiry('#06', 'Lunar Chandrama')" class="btn">Inquire Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 7: Bangle -->
+                    <div class="product-card" data-category="rings" data-material="gold">
+                        <button class="product-wishlist" onclick="toggleWishlist(this, '#07', 'Sovereign Bangles')" aria-label="Add to wishlist"></button>
+                        <div class="product-image-container">
+                            <img src="designs/bangles1.jpg" alt="Sovereign Bangles">
+                        </div>
+                        <div class="product-info">
+                            <div>
+                                <div class="product-material">24K Gold</div>
+                                <h3 class="product-title">Sovereign Bangles</h3>
+                                <ul class="product-specs">
+                                    <li>Weight: <span>20gm</span></li>
+                                    <li>Code: <span>#07</span></li>
+                                </ul>
+                            </div>
+                            <div class="product-actions">
+                                <button onclick="triggerInquiry('#07', 'Sovereign Bangles')" class="btn">Inquire Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 8: Bracelet -->
+                    <div class="product-card" data-category="rings" data-material="gold">
+                        <button class="product-wishlist" onclick="toggleWishlist(this, '#08', 'Classic Gold Bracelet')" aria-label="Add to wishlist"></button>
+                        <div class="product-image-container">
+                            <img src="designs/bracelets1.jpg" alt="Classic Gold Bracelet">
+                        </div>
+                        <div class="product-info">
+                            <div>
+                                <div class="product-material">22K Gold</div>
+                                <h3 class="product-title">Classic Gold Bracelet</h3>
+                                <ul class="product-specs">
+                                    <li>Weight: <span>22gm</span></li>
+                                    <li>Code: <span>#08</span></li>
+                                </ul>
+                            </div>
+                            <div class="product-actions">
+                                <button onclick="triggerInquiry('#08', 'Classic Gold Bracelet')" class="btn">Inquire Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 9: Ear Rings -->
+                    <div class="product-card" data-category="rings" data-material="gold">
+                        <button class="product-wishlist" onclick="toggleWishlist(this, '#09', 'Elegance Stud Earrings')" aria-label="Add to wishlist"></button>
+                        <div class="product-image-container">
+                            <img src="designs/ear rings1.jpg" alt="Elegance Stud Earrings">
+                        </div>
+                        <div class="product-info">
+                            <div>
+                                <div class="product-material">24K Gold</div>
+                                <h3 class="product-title">Elegance Stud Earrings</h3>
+                                <ul class="product-specs">
+                                    <li>Weight: <span>20gm</span></li>
+                                    <li>Code: <span>#09</span></li>
+                                </ul>
+                            </div>
+                            <div class="product-actions">
+                                <button onclick="triggerInquiry('#09', 'Elegance Stud Earrings')" class="btn">Inquire Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Story -->
+        <section class="about-section" id="about">
+            <div class="container">
+                <div class="about-content">
+                    <h2>Our Heritage</h2>
+                    <p>Velora was founded with a clear philosophy: to provide luxury, timeless catalog pieces that embody master craftsmanship. Transitioning from traditional custom jewelry production, we present a curated archive of precious metals designed to serve as milestones for generations.</p>
+                    <div class="about-logo">Velora</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact-section" id="contact">
+            <div class="container">
+                <h2>Connect With Us</h2>
+                <div class="contact-box">
+                    <div class="contact-info-pane">
+                        <h3>Visit Our Studio</h3>
+                        <ul class="contact-details">
+                            <li><strong>Address:</strong>Huprachaur, Hetauda-4, Makwanpur, Nepal</li>
+                            <li><strong>Hours:</strong>Sunday - Friday, 10:00 AM - 6:00 PM</li>
+                            <li><strong>Tel:</strong>+977 057 91827</li>
+                            <li><strong>Email:</strong>concierge@velorajewelry.com</li>
+                        </ul>
+                        <p style="color: var(--color-warm-gray); font-size: 0.85rem;">For private consultations, click on our concierge messenger on the bottom right of the page or visit us directly.</p>
+                    </div>
+                    <div class="contact-map-pane">
+                        <img src="designs/map.png" alt="Velora Showroom Map">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Sliding DM Chat Drawer (Inquiry Section) -->
+    <div id="chat-drawer" class="chat-drawer">
+        <div class="chat-header">
+            <div class="agent-profile">
+                <span class="agent-avatar">V</span>
+                <div>
+                    <h4>Velora Concierge</h4>
+                    <span class="agent-status">● Live Agent Available</span>
+                </div>
+            </div>
+            <button class="close-chat-btn" onclick="closeChatDrawer()">&times;</button>
+        </div>
+        
+        <div class="chat-messages" id="chat-messages">
+            <!-- Simulated greeting messages -->
+            <div class="chat-bubble agent">
+                <p>Hello! Welcome to Velora Luxury Concierge.</p>
+            </div>
+            <div class="chat-bubble agent">
+                <p>Would you like to inquire about a custom configuration or a specific design?</p>
+            </div>
+        </div>
+
+        <!-- Netlify Inquiry Input Fields inside Chat -->
+        <form class="chat-form" name="velora-inquiries" method="POST" data-netlify="true" onsubmit="submitChatInquiry(event)">
+            <!-- Hidden inputs loaded dynamically when clicking 'Inquire Now' -->
+            <input type="hidden" id="inquiry-product-code" name="product_code" value="">
+            <input type="hidden" id="inquiry-product-name" name="product_name" value="">
+            
+            <div class="chat-user-info" id="chat-user-fields">
+                <input type="text" name="client_name" placeholder="Your Full Name" class="chat-input-field" required>
+                <input type="email" name="client_email" placeholder="Your Email Address" class="chat-input-field" required>
+            </div>
+
+            <div class="chat-input-area">
+                <textarea id="chat-textarea" name="client_message" placeholder="Type your message..." required></textarea>
+                <button type="submit" class="chat-send-btn" title="Send Inquiry">➔</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Wishlist Modal -->
+    <div id="wishlist-modal" class="wishlist-modal">
+        <div class="wishlist-modal-content">
+            <div class="wishlist-modal-header">
+                <h3>Your saved pieces</h3>
+                <button class="close-wishlist-btn" onclick="toggleWishlistModal()">&times;</button>
+            </div>
+            <div class="wishlist-items-list" id="wishlist-items-list">
+                <p class="empty-wishlist-msg">No pieces saved yet.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Popup / Notification -->
+    <div id="notification" class="notification">
+        <p id="notification-message">Message sent successfully!</p>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Column 1: App Downloads -->
+                <div class="footer-col">
+                    <h3>Mobile Catalog</h3>
+                    <p>Access exclusive collections and private notifications on our dedicated catalog app.</p>
+                    <div class="footer-app-logos">
+                        <img src="designs/app-store.png" alt="App Store">
+                        <img src="designs/play-store.png" alt="Google Play">
+                    </div>
+                </div>
+                
+                <!-- Column 2: Logo and Socials -->
+                <div class="footer-col footer-brand">
+                    <div class="logo">Velora<span>.</span></div>
+                    <p>Crafting timeless elegance and quiet luxury showcases since 2003. Certified authentic conflict-free jewelry.</p>
+                    <ul class="footer-socials">
+                        <li><a href="#" title="Facebook">📘</a></li>
+                        <li><a href="#" title="Instagram">📸</a></li>
+                        <li><a href="#" title="Twitter">🐦</a></li>
+                        <li><a href="#" title="YouTube">📺</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 3: Newsletter Sign-up (Netlify Form Integrated) -->
+                <div class="footer-col footer-col-right">
+                    <h3>Instant Updates</h3>
+                    <p>Join our private listing directory to receive instant email updates when a new piece is added to the collection.</p>
+                    
+                    <form class="newsletter-form" name="velora-newsletter" method="POST" data-netlify="true" onsubmit="submitNewsletter(event)">
+                        <input type="email" name="subscriber_email" placeholder="Your Email Address" class="newsletter-input" aria-label="Email address" required>
+                        <button type="submit" class="newsletter-btn">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            
+            <hr>
+            
+            <div class="copyright-bar">
+                <p>&copy; 2026 Velora. All rights reserved.</p>
+                <ul class="copyright-links">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Showroom Terms</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Interactions -->
+    <script src="main.js"></script>
+
+</body>
+</html>
