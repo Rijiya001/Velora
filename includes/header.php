@@ -12,7 +12,7 @@ $brand_name = get_setting($con, 'brand_name', 'Velora');
     <title><?php echo isset($page_title) ? xss_clean($page_title) . " | " . xss_clean($brand_name) : xss_clean($brand_name) . " | Luxury Jewelry Showcase"; ?></title>
     
     <!-- CSS Stylesheet -->
-    <link rel="stylesheet" href="<?php echo $rel_path; ?>style.css">
+    <link rel="stylesheet" href="<?php echo $rel_path; ?>style.css?v=<?php echo time(); ?>">
 </head>
 <body>
 

@@ -63,7 +63,7 @@ $about_story = get_setting($con, 'about_story', '');
             $collections_query = mysqli_query($con, "SELECT * FROM collections ORDER BY display_order ASC, id ASC LIMIT 2");
             while ($col_data = mysqli_fetch_assoc($collections_query)):
             ?>
-            <div class="product-card" style="border-radius: 4px;">
+            <div class="product-card" style="border-radius: 4px; cursor: pointer;" onclick="window.location.href='showcase.php?collection=<?php echo $col_data['id']; ?>'">
                 <div class="product-image-container" style="padding-bottom: 70%;">
                     <img src="<?php echo xss_clean($col_data['banner_image']); ?>" alt="<?php echo xss_clean($col_data['name']); ?>">
                 </div>
@@ -90,7 +90,7 @@ $about_story = get_setting($con, 'about_story', '');
             if (mysqli_num_rows($products_query) > 0):
                 while ($prod = mysqli_fetch_assoc($products_query)):
             ?>
-                <div class="product-card">
+                <div class="product-card" style="cursor: pointer;" onclick="window.location.href='product.php?code=<?php echo urlencode($prod['product_code']); ?>'">
                     <div class="product-badge">Featured</div>
                     <div class="product-image-container">
                         <img src="<?php echo xss_clean($prod['main_image']); ?>" alt="<?php echo xss_clean($prod['name']); ?>">

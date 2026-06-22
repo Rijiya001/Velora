@@ -108,6 +108,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($action === 'add' || $action === '
         }
     }
 
+    // Handle Additional Images
+    $additional_images = [];
+    if (isset($_FILES['additional_images'])) {
+        $total_files = count($_FILES['additional_images']['name']);
+        for ($i = 0; $i < $total_files; $i++) {
+            if ($_FILES['additional_images']['error'][$i] === UPLOAD_ERR_OK) {
+                $file_tmp = $_FILES['additional_images']['tmp_name'][$i];
+                $file_name = basename($_FILES['additional_images']['name'][$i]);
+                $file_name = preg_replace("/[^a-zA-Z0-9\._-]/", "_", $file_name);
+                
+                $target_dir = dirname(__DIR__) . "/assets/uploads/products/";
+                if (!file_exists($target_dir)) {
+                    mkdir($target_dir, 0777, true);
+                }
+                
+                $timestamp = time() . "_" . $i;
+                $dest_path = $target_dir . $timestamp . "_" . $file_name;
+                if (move_uploaded_file($file_tmp, $dest_path)) {
+                    $additional_images[] = "assets/uploads/products/" . $timestamp . "_" . $file_name;
+                }
+            }
+        }
+    }
+
     if (empty($name) || empty($category) || empty($material) || empty($product_code)) {
         $error = "Please fill in all required fields.";
     } elseif (empty($error)) {
@@ -129,6 +153,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($action === 'add' || $action === '
                     mysqli_stmt_bind_param($stmt, "sisssssiiiis", $name, $collection_id, $category, $description, $material, $weight, $product_code, $is_featured, $is_trending, $is_new_arrival, $display_order, $main_image_path);
                     
                     if (mysqli_stmt_execute($stmt)) {
+                        $new_product_id = mysqli_insert_id($con);
+                        foreach ($additional_images as $img_path) {
+                            $img_stmt = mysqli_prepare($con, "INSERT INTO product_images (product_id, image_path) VALUES (?, ?)");
+                            mysqli_stmt_bind_param($img_stmt, "is", $new_product_id, $img_path);
+                            mysqli_stmt_execute($img_stmt);
+                            mysqli_stmt_close($img_stmt);
+                        }
                         $success = "Masterpiece catalogued successfully.";
                         log_activity($con, $_SESSION['email'], $_SESSION['role'], "Created product code $product_code");
                         header("Location: products.php");
@@ -158,6 +189,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($action === 'add' || $action === '
                     mysqli_stmt_bind_param($stmt, "sisssssiiiisi", $name, $collection_id, $category, $description, $material, $weight, $product_code, $is_featured, $is_trending, $is_new_arrival, $display_order, $main_image_path, $product_id);
                     
                     if (mysqli_stmt_execute($stmt)) {
+                        foreach ($additional_images as $img_path) {
+                            $img_stmt = mysqli_prepare($con, "INSERT INTO product_images (product_id, image_path) VALUES (?, ?)");
+                            mysqli_stmt_bind_param($img_stmt, "is", $product_id, $img_path);
+                            mysqli_stmt_execute($img_stmt);
+                            mysqli_stmt_close($img_stmt);
+                        }
                         $success = "Masterpiece updated successfully.";
                         log_activity($con, $_SESSION['email'], $_SESSION['role'], "Updated product ID $product_id");
                         header("Location: products.php");
@@ -351,6 +388,21 @@ include dirname(__DIR__) . '/includes/header.php';
                             <div style="margin-top:10px;">
                                 <small style="color:var(--color-warm-gray); display:block; margin-bottom:5px;">Current Image:</small>
                                 <img src="../<?php echo xss_clean($p_img); ?>" style="width:100px; height:100px; object-fit:cover; border:1px solid var(--color-border-gray); border-radius:2px;">
+                            </div>
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="additional_images">Additional Showcase Images (Multiple)</label>
+                        <input type="file" id="additional_images" name="additional_images[]" class="form-control" multiple accept="image/*">
+                        <?php if ($action === 'edit'): ?>
+                            <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
+                                <?php
+                                $imgs_query = mysqli_query($con, "SELECT image_path FROM product_images WHERE product_id = " . intval($product_id));
+                                while ($img_data = mysqli_fetch_assoc($imgs_query)):
+                                ?>
+                                    <img src="../<?php echo xss_clean($img_data['image_path']); ?>" style="width:80px; height:80px; object-fit:cover; border:1px solid var(--color-border-gray); border-radius:2px;">
+                                <?php endwhile; ?>
                             </div>
                         <?php endif; ?>
                     </div>

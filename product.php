@@ -41,23 +41,33 @@ include 'includes/navbar.php';
             
             <!-- Left: Product Images Pane -->
             <div class="col" style="flex: 1.2;">
-                <div style="border: 1px solid var(--color-border-gray); padding: 15px; border-radius: 4px; background-color: var(--color-soft-ivory); margin-bottom: 20px;">
-                    <img src="<?php echo xss_clean($prod['main_image']); ?>" alt="<?php echo xss_clean($prod['name']); ?>" style="width: 100%; height: auto; object-fit: cover; border-radius: 2px;" id="main-product-preview">
+                <?php
+                // Fetch all images for JS slider
+                $slider_images = [];
+                $slider_images[] = $prod['main_image'];
+                $imgs_query = mysqli_query($con, "SELECT image_path FROM product_images WHERE product_id = " . intval($prod['id']));
+                while ($img_data = mysqli_fetch_assoc($imgs_query)) {
+                    $slider_images[] = $img_data['image_path'];
+                }
+                ?>
+                <div style="position: relative; border: 1px solid var(--color-border-gray); padding: 15px; border-radius: 4px; background-color: var(--color-soft-ivory); margin-bottom: 20px; overflow: hidden;">
+                    <!-- Main Image -->
+                    <img src="<?php echo xss_clean($slider_images[0]); ?>" alt="<?php echo xss_clean($prod['name']); ?>" style="width: 100%; height: 500px; object-fit: cover; border-radius: 2px; transition: opacity 0.2s ease-in-out;" id="main-product-preview">
+                    
+                    <?php if(count($slider_images) > 1): ?>
+                    <!-- Navigation Arrows -->
+                    <button onclick="prevSlide()" style="position: absolute; top: 50%; left: 25px; transform: translateY(-50%); background: var(--color-pure-white); color: var(--color-deep-charcoal); border: 1px solid var(--color-border-gray); width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: var(--transition-fast);" onmouseover="this.style.backgroundColor='var(--color-champagne-gold)'; this.style.color='white';" onmouseout="this.style.backgroundColor='var(--color-pure-white)'; this.style.color='var(--color-deep-charcoal)';">&larr;</button>
+                    <button onclick="nextSlide()" style="position: absolute; top: 50%; right: 25px; transform: translateY(-50%); background: var(--color-pure-white); color: var(--color-deep-charcoal); border: 1px solid var(--color-border-gray); width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: var(--transition-fast);" onmouseover="this.style.backgroundColor='var(--color-champagne-gold)'; this.style.color='white';" onmouseout="this.style.backgroundColor='var(--color-pure-white)'; this.style.color='var(--color-deep-charcoal)';">&rarr;</button>
+                    <?php endif; ?>
                 </div>
                 
                 <!-- Secondary thumbnails if present -->
-                <div style="display: flex; gap: 15px;">
-                    <div style="width: 80px; height: 80px; border: 1px solid var(--color-champagne-gold); padding: 5px; cursor: pointer; border-radius:2px;" onclick="switchPreview('<?php echo xss_clean($prod['main_image']); ?>')">
-                        <img src="<?php echo xss_clean($prod['main_image']); ?>" style="width: 100%; height: 100%; object-fit: cover;">
-                    </div>
-                    <?php
-                    $imgs_query = mysqli_query($con, "SELECT image_path FROM product_images WHERE product_id = " . intval($prod['id']));
-                    while ($img_data = mysqli_fetch_assoc($imgs_query)):
-                    ?>
-                        <div style="width: 80px; height: 80px; border: 1px solid var(--color-border-gray); padding: 5px; cursor: pointer; border-radius:2px;" onclick="switchPreview('<?php echo xss_clean($img_data['image_path']); ?>')">
-                            <img src="<?php echo xss_clean($img_data['image_path']); ?>" style="width: 100%; height: 100%; object-fit: cover;">
+                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <?php foreach($slider_images as $index => $img): ?>
+                        <div class="thumb-container" id="thumb-<?php echo $index; ?>" style="width: 80px; height: 80px; border: 1px solid <?php echo $index === 0 ? 'var(--color-champagne-gold)' : 'var(--color-border-gray)'; ?>; padding: 5px; cursor: pointer; border-radius:2px; transition: var(--transition-fast);" onclick="goToSlide(<?php echo $index; ?>)">
+                            <img src="<?php echo xss_clean($img); ?>" style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
-                    <?php endwhile; ?>
+                    <?php endforeach; ?>
                 </div>
             </div>
 
@@ -144,8 +154,40 @@ include 'includes/navbar.php';
 </div>
 
 <script>
-function switchPreview(path) {
-    document.getElementById('main-product-preview').src = path;
+const sliderImages = <?php echo json_encode(array_map('xss_clean', $slider_images)); ?>;
+let currentSlide = 0;
+
+function updateSlider() {
+    const mainImg = document.getElementById('main-product-preview');
+    mainImg.style.opacity = 0;
+    
+    setTimeout(() => {
+        mainImg.src = sliderImages[currentSlide];
+        mainImg.style.opacity = 1;
+    }, 200);
+    
+    // Update thumbnails active state
+    document.querySelectorAll('.thumb-container').forEach((thumb, index) => {
+        thumb.style.borderColor = (index === currentSlide) ? 'var(--color-champagne-gold)' : 'var(--color-border-gray)';
+    });
+}
+
+function nextSlide() {
+    if (sliderImages.length <= 1) return;
+    currentSlide = (currentSlide + 1) % sliderImages.length;
+    updateSlider();
+}
+
+function prevSlide() {
+    if (sliderImages.length <= 1) return;
+    currentSlide = (currentSlide - 1 + sliderImages.length) % sliderImages.length;
+    updateSlider();
+}
+
+function goToSlide(index) {
+    if (currentSlide === index) return;
+    currentSlide = index;
+    updateSlider();
 }
 
 function openConciergeDM() {

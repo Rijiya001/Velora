@@ -40,8 +40,8 @@ Open phpmyadmin (http://localhost/phpmyadmin/)
 6. Open your web browser and navigate to `http://localhost/project/index.php`.
 
 8.  For Admin Login:
-Username: `kritika`
-Password: `kritika`
+Email: `superadmin@velora.com`
+Password: `admin123`
 
 ## Built With
 

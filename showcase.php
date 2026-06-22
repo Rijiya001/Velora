@@ -120,7 +120,7 @@ if ($stmt) {
                         }
                     }
             ?>
-                <div class="product-card">
+                <div class="product-card" style="cursor: pointer;" onclick="window.location.href='product.php?code=<?php echo urlencode($prod['product_code']); ?>'">
                     <?php if ($prod['is_new_arrival']): ?>
                         <div class="product-badge">New Arrival</div>
                     <?php elseif ($prod['is_trending']): ?>
@@ -128,7 +128,7 @@ if ($stmt) {
                     <?php endif; ?>
                     
                     <?php if (isset($_SESSION['user_id'])): ?>
-                        <button class="product-wishlist <?php echo $is_wishlisted ? 'active' : ''; ?>" onclick="handleWishlistToggle(this, <?php echo $prod['id']; ?>)" aria-label="Wishlist"></button>
+                        <button class="product-wishlist <?php echo $is_wishlisted ? 'active' : ''; ?>" onclick="event.stopPropagation(); handleWishlistToggle(this, <?php echo $prod['id']; ?>)" aria-label="Wishlist"></button>
                     <?php endif; ?>
 
                     <div class="product-image-container">
