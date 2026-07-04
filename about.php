@@ -5,9 +5,9 @@ include 'includes/header.php';
 include 'includes/navbar.php';
 
 // Fetch dynamic about details
-$story = get_setting($con, 'about_story', 'Velora is one of the oldest and most trusted jewelry houses located in Huprachaur, Hetauda. For over 20 years, our master artisans have blended classical Nepalese heritage with contemporary designs, offering an unmatched experience in bespoke gold and silver creations.');
-$mission = get_setting($con, 'about_mission', 'To craft timeless, ethical heirloom pieces that embody quiet luxury, unmatched Nepalese design craftsmanship, and structural integrity.');
-$val_vision = get_setting($con, 'about_vision', 'To establish Velora as the premier luxury showcase destination, globally representing authentic Nepalese jewelry heritage.');
+$story = get_setting($con, 'about_story', 'Velora is one of the most trusted fashion jewelry houses located in Huprachaur, Hetauda. For over 20 years, our designers have blended classical Nepalese heritage with contemporary aesthetics, offering an unmatched experience in luxury-inspired imitation jewelry.');
+$mission = get_setting($con, 'about_mission', 'To craft beautifully designed, fashion-forward imitation jewelry that embodies quiet luxury, contemporary elegance, and exceptional quality at an accessible price.');
+$val_vision = get_setting($con, 'about_vision', 'To establish Velora as the premier destination for luxury-inspired fashion jewelry, celebrated globally for unique design and accessible elegance.');
 ?>
 
 <section class="section-padding" style="background-color: var(--color-soft-ivory);">

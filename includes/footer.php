@@ -15,7 +15,7 @@
             <!-- Column 2: Logo and Socials -->
             <div class="footer-col footer-brand">
                 <div class="logo"><?php echo xss_clean($brand_name); ?><span>.</span></div>
-                <p>Crafting timeless elegance and quiet luxury since 2003. Certified authentic materials sourced conflict-free.</p>
+                <p>Crafting timeless elegance and everyday luxury since 2003. Premium designs inspired by high-end jewelry, made accessible for all.</p>
                 <ul class="footer-socials">
                     <li><a href="#" title="Facebook">📘</a></li>
                     <li><a href="#" title="Instagram">📸</a></li>

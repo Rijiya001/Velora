@@ -57,7 +57,7 @@ if ($stmt) {
     <div class="container">
         <span class="hero-tag">Design Catalog</span>
         <h1 style="margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.1em;">The Showcase Archive</h1>
-        <p class="section-subtitle" style="margin-bottom: 0;">View detailed specifications of our gold and silver archive creations. Contact our concierge to request private viewings.</p>
+        <p class="section-subtitle" style="margin-bottom: 0;">View detailed specifications of our premium fashion jewelry designs. Contact our concierge to request private viewings.</p>
     </div>
 </section>
 

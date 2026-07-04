@@ -9,7 +9,7 @@ $brand_name = get_setting($con, 'brand_name', 'Velora');
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo isset($page_title) ? xss_clean($page_title) . " | " . xss_clean($brand_name) : xss_clean($brand_name) . " | Luxury Jewelry Showcase"; ?></title>
+    <title><?php echo isset($page_title) ? xss_clean($page_title) . " | " . xss_clean($brand_name) : xss_clean($brand_name) . " | Premium Fashion Jewelry"; ?></title>
     
     <!-- CSS Stylesheet -->
     <link rel="stylesheet" href="<?php echo $rel_path; ?>style.css?v=<?php echo time(); ?>">

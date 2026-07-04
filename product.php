@@ -87,7 +87,7 @@ include 'includes/navbar.php';
                             <td style="font-weight: 500; text-transform: capitalize;"><?php echo xss_clean($prod['category']); ?></td>
                         </tr>
                         <tr style="height: 35px;">
-                            <td style="color: var(--color-warm-gray);">Weight Purity:</td>
+                            <td style="color: var(--color-warm-gray);">Weight:</td>
                             <td style="font-weight: 500;"><?php echo xss_clean($prod['weight']); ?></td>
                         </tr>
                         <tr style="height: 35px;">
@@ -130,7 +130,7 @@ include 'includes/navbar.php';
             <p>Welcome to Velora Concierge! We are online and ready to assist you.</p>
         </div>
         <div class="chat-bubble agent">
-            <p>We see you are looking at the <strong><?php echo xss_clean($prod['name']); ?></strong> (Code: <?php echo xss_clean($prod['product_code']); ?>). How can our master goldsmiths customize this piece for you?</p>
+            <p>We see you are looking at the <strong><?php echo xss_clean($prod['name']); ?></strong> (Code: <?php echo xss_clean($prod['product_code']); ?>). How can our design team customize this piece for you?</p>
         </div>
     </div>
 

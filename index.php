@@ -7,7 +7,7 @@ include 'includes/navbar.php';
 // Fetch dynamic homepage details from website settings
 $hero_title = get_setting($con, 'hero_title', 'Give your looks<br>A New Style');
 $hero_subtitle = get_setting($con, 'hero_subtitle', '"Make jewellery contact before eyes contact"');
-$hero_image = get_setting($con, 'hero_image', 'designs/design3.jpg');
+$hero_image = get_setting($con, 'hero_image', 'designs/hero_model.png');
 $about_story = get_setting($con, 'about_story', '');
 ?>
 
@@ -25,7 +25,7 @@ $about_story = get_setting($con, 'about_story', '');
             </div>
             <div class="col col-img">
                 <div class="hero-image">
-                    <img src="<?php echo xss_clean($hero_image); ?>" alt="Velora Fine Jewelry Signature Series">
+                    <img src="<?php echo xss_clean($hero_image); ?>" alt="Velora Premium Fashion Jewelry Collection">
                 </div>
             </div>
         </div>

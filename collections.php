@@ -9,7 +9,7 @@ include 'includes/navbar.php';
     <div class="container">
         <span class="hero-tag">Exquisite Themes</span>
         <h1 style="margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.1em;">The Velora Collections</h1>
-        <p class="section-subtitle" style="margin-bottom: 0;">Explore our curated archives of gold, silver, and bespoke heirloom creations designed with historical inspirations.</p>
+        <p class="section-subtitle" style="margin-bottom: 0;">Explore our curated archives of luxury-inspired imitation jewelry, each collection designed with unique artistic inspirations.</p>
     </div>
 </section>
 

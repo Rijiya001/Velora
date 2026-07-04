@@ -365,7 +365,7 @@ include dirname(__DIR__) . '/includes/header.php';
                         <div class="col col-6" style="flex:1;">
                             <div class="form-group">
                                 <label for="material">Material *</label>
-                                <input type="text" id="material" name="material" class="form-control" placeholder="e.g. 24K Gold, Pure Silver" value="<?php echo xss_clean($p_mat); ?>" required>
+                                <input type="text" id="material" name="material" class="form-control" placeholder="e.g. Gold-Plated Alloy, Crystal Zirconia" value="<?php echo xss_clean($p_mat); ?>" required>
                             </div>
                         </div>
                         <div class="col col-6" style="flex:1;">

@@ -1,5 +1,5 @@
 <?php
-// Velora Luxury Jewelry Showcase Platform - Database Configuration & Auto-Installer
+// Velora Premium Fashion Jewelry Platform - Database Configuration & Auto-Installer
 // Compatible with local XAMPP MySQL setup
 
 // Configure session safety parameters globally
