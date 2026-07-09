@@ -38,7 +38,7 @@ $about_story = get_setting($con, 'about_story', '');
         <div class="row promo-row">
             <div class="col col-img">
                 <div class="promo-image">
-                    <img src="designs/design4.jpg" alt="Velora Craftsmanship Atelier">
+                    <img src="designs/design4.jpeg" alt="Velora Craftsmanship Atelier">
                 </div>
             </div>
             <div class="col col-text">
