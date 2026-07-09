@@ -26,7 +26,7 @@
   --font-body: 'Inter', system-ui, -apple-system, sans-serif;
 
   /* Layout */
-  --grid-margin-desktop: 100px;
+  --grid-margin-desktop: 5vw;
   --grid-margin-tablet: 40px;
   --grid-margin-mobile: 20px;
 
@@ -199,7 +199,7 @@ nav {
 }
 
 .nav-links li {
-  margin: 0 20px;
+  margin: 0 12px;
 }
 
 .nav-links a {
@@ -236,7 +236,7 @@ nav {
   display: flex;
   align-items: center;
   list-style: none;
-  gap: 15px;
+  gap: 10px;
 }
 
 .nav-icons a {
